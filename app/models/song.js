@@ -7,7 +7,8 @@ const songSchema = new Schema({
     album: { type: String },
     composer: { type: String, required: true },
     fileType: { type: String, required: true },
-    singer: { type: Types.Array, required: true }
+    singer: { type: Types.Array, required: true },
+    published: { type: Boolean, required: true, default: false }
 })
 
 export const Song = new model('Song', songSchema)
