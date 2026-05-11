@@ -1,9 +1,11 @@
 import e from 'express'
 import { config } from 'dotenv'
 import { appRouter } from './app/routes/index.js'
+import { dbConnection } from './app/services/database.js'
 
 config()
 const app = e()
+dbConnection()
 
 app.use(appRouter)
 
