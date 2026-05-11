@@ -1,6 +1,6 @@
 import e from 'express'
 import { config } from 'dotenv'
-import { appRouter } from './app/routes'
+import { appRouter } from './app/routes/index.js'
 
 config()
 const app = e()

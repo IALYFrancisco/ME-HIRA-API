@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetSong } from "../services/song";
+import { GetSong } from "../services/song.js";
 
 export const songRouter = Router()
 

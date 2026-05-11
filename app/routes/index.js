@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { songRouter } from "./song";
+import { songRouter } from "./song.js";
 
 export const appRouter = Router()
 
