@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, Types } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 const songSchema = new Schema({
     title: { type: String, required: true },
@@ -7,7 +7,7 @@ const songSchema = new Schema({
     album: { type: String },
     composer: { type: String, required: true },
     fileType: { type: String, required: true },
-    singer: { type: Types.Array, required: true },
+    singer: { type: Array, required: true },
     published: { type: Boolean, required: true, default: false }
 })
 
