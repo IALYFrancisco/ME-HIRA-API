@@ -1,3 +1,11 @@
+import { Song } from "../models/song";
+
 export function GetSong(request, response){
-    response.status(200).end()
+    try{
+        let songs = await Song.find()
+        response.status(200).json(songs)
+    }
+    catch{
+        response.status(500).end()
+    }
 }
