@@ -4,4 +4,4 @@ import { config } from 'dotenv'
 config()
 const app = e()
 
-app.listen(1234, ()=>{ console.log(`The application is running at ${}`) })
+app.listen(1234, ()=>{ console.log(`The application is running at ${process.env.APP_DOMAIN}`) })
