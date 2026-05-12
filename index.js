@@ -3,11 +3,13 @@ import { config } from 'dotenv'
 import { appRouter } from './app/routes/index.js'
 import { dbConnection } from './app/services/database.js'
 import { corsConfigurations } from './app/services/cors.js'
+import { staticFilesServConfigurations } from './app/services/song.js'
 
 config()
 const app = e()
 dbConnection()
 
+app.use(staticFilesServConfigurations)
 app.use(corsConfigurations)
 app.use(appRouter)
 
