@@ -1,7 +1,7 @@
 import path from "path";
 import { Song } from "../models/song.js";
-import { fileUrlToPath } from 'url'
 import e from "express";
+import { fileURLToPath } from "url";
 
 export async function GetSong(request, response){
     try{
@@ -14,7 +14,7 @@ export async function GetSong(request, response){
     }
 }
 
-const __filename = fileUrlToPath(import.meta.url)
+const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export const staticFilesServConfigurations = e.static(path.join(__dirname, '../public'))
