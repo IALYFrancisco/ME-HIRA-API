@@ -14,7 +14,7 @@ set UPLOADS_DIR=..\..\app\public\
 
 echo.
 echo ====================================================
-echo   Sauvegarde de l'application locale LUMINI_SCHOOL
+echo   Sauvegarde de l'application locale Me-Hira
 echo   Date : %DATE%
 echo ====================================================
 echo.
@@ -26,7 +26,7 @@ echo.
 mkdir "%BACKUP_DIR%"
 
 :: Exécution mongodump
-mongodump --uri="mongodb://127.0.0.1:27017/LUMINI_SCHOOL" --out="%BACKUP_DIR%/database"
+mongodump --uri="mongodb://127.0.0.1:27017/ME_HIRA" --out="%BACKUP_DIR%/database"
 
 :: Vérification erreur
 if %errorlevel% neq 0 (
