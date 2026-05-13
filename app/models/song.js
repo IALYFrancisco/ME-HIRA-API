@@ -9,6 +9,6 @@ const songSchema = new Schema({
     fileType: { type: String, required: true },
     singer: { type: Array, required: true },
     published: { type: Boolean, required: true, default: false }
-})
+}, { timestamps: true })
 
 export const Song = new model('Song', songSchema)
