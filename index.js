@@ -11,6 +11,7 @@ dbConnection()
 
 app.use(staticFilesServConfigurations)
 app.use(corsConfigurations)
+app.use(e.json())
 app.use(appRouter)
 
 app.listen(1234, ()=>{ console.log(`The application is running at ${process.env.APP_DOMAIN}`) })
