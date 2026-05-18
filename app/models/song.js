@@ -45,4 +45,4 @@ songSchema.pre("save", function (next) {
     next()
 })
 
-export const Song = new model('Song', songSchema
+export const Song = new model('Song', songSchema)
