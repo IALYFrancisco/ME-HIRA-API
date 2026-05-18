@@ -14,6 +14,18 @@ export async function GetSong(request, response){
     }
 }
 
+export async function AddSong(request, response){
+    try{
+        const song = request.body
+        let _song = new Song(song)
+        _song = await _song.save()
+        response.status(201).end()
+    }
+    catch{
+        response.status(500).end()
+    }
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
