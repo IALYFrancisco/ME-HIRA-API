@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 import { nanoid } from "nanoid";
-import slugify from slugify
+import slugify from "slugify"
 
 const songSchema = new Schema({
     title: { type: String, required: true },
@@ -45,4 +45,4 @@ songSchema.pre("save", function (next) {
     next()
 })
 
-export const Song = new model('Song', songSchema)
+export const Song = new model('Song', songSchema
