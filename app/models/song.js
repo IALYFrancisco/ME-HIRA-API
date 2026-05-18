@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { nanoid } from "nanoid";
 import slugify from "slugify"
 
@@ -17,7 +17,7 @@ const songSchema = new Schema({
 
 songSchema.set("optimisticConcurrency", true)
 
-songSchema.pre("save", function (next) {
+songSchema.pre("save", async function () {
 
     if (!this.slugId) {
         this.slugId = nanoid(8)
@@ -41,8 +41,6 @@ songSchema.pre("save", function (next) {
 
         this.slug = `${baseSlug}-${this.slugId}`
     }
-
-    next()
 })
 
 export const Song = new model('Song', songSchema)
