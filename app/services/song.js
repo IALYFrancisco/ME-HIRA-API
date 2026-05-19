@@ -5,6 +5,10 @@ import { fileURLToPath } from "url";
 
 export async function GetSong(request, response){
     try{
+        if( request.query.slug ){
+            let song = await Song.findOne({ slug: request.query.slug })
+            response.status(200).json(song)
+        }
         let songs = await Song.find()
         songs = songs.filter((s)=> s.published === true)
         response.status(200).json(songs)
