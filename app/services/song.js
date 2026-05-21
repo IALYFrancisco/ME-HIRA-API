@@ -10,7 +10,6 @@ export async function GetSong(request, response){
             response.status(200).json(song)
         }
         let songs = await Song.find()
-        songs = songs.filter((s)=> s.published === true)
         response.status(200).json(songs)
     }
     catch{
