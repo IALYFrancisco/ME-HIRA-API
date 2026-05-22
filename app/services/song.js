@@ -41,7 +41,13 @@ export async function UpdateSong(request, response) {
 }
 
 export async function DeleteSong(request, response) {
-    
+    try{
+        const { song } = request.body
+        await Song.findByIdAndDelete(song)
+        response.status(200).end()
+    }catch{
+        response.status(500).end()
+    } 
 }
 
 const __filename = fileURLToPath(import.meta.url)
