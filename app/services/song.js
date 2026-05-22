@@ -29,6 +29,10 @@ export async function AddSong(request, response){
     }
 }
 
+export async function UpdateSong(request, response) {
+    
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
