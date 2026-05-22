@@ -30,7 +30,10 @@ export async function AddSong(request, response){
 }
 
 export async function UpdateSong(request, response) {
-    
+    try{}
+    catch{
+        response.status(500).end()
+    }
 }
 
 const __filename = fileURLToPath(import.meta.url)
