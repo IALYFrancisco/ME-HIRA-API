@@ -30,7 +30,11 @@ export async function AddSong(request, response){
 }
 
 export async function UpdateSong(request, response) {
-    try{}
+    try{
+        const { song, update } = request.body
+        await Song.findByIdAndUpdate(song, update)
+        response.status(200).end()
+    }
     catch{
         response.status(500).end()
     }
