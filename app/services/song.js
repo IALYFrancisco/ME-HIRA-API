@@ -40,8 +40,15 @@ export async function UpdateSong(request, response) {
     }
 }
 
-export async function SongPublication(request, respose){
-    
+export async function SongPublication(request, response){
+    try{
+        const { update } = request.body
+        await Song.findByIdAndUpdate(song, update)
+        response.status(200).end()
+    }
+    catch{
+        response.status(500).end()
+    }
 }
 
 export async function DeleteSong(request, response) {
