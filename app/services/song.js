@@ -47,7 +47,7 @@ export async function DeleteSong(request, response) {
         response.status(200).end()
     }catch{
         response.status(500).end()
-    } 
+    }
 }
 
 const __filename = fileURLToPath(import.meta.url)
