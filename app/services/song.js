@@ -40,6 +40,10 @@ export async function UpdateSong(request, response) {
     }
 }
 
+export async function SongPublication(request, respose){
+    
+}
+
 export async function DeleteSong(request, response) {
     try{
         const { song } = request.body
