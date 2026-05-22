@@ -42,7 +42,7 @@ export async function UpdateSong(request, response) {
 
 export async function SongPublication(request, response){
     try{
-        const { update } = request.body
+        const { song, update } = request.body
         await Song.findByIdAndUpdate(song, update)
         response.status(200).end()
     }
