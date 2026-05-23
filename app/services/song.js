@@ -5,8 +5,11 @@ import { fileURLToPath } from "url";
 
 export async function GetSong(request, response){
     try{
+        if( request.query.slug ){
+            let song = await Song.findOne({ slug: request.query.slug })
+            response.status(200).json(song)
+        }
         let songs = await Song.find()
-        songs = songs.filter((s)=> s.published === true)
         response.status(200).json(songs)
     }
     catch{
@@ -22,6 +25,38 @@ export async function AddSong(request, response){
         response.status(201).end()
     }
     catch{
+        response.status(500).end()
+    }
+}
+
+export async function UpdateSong(request, response) {
+    try{
+        const { song, update } = request.body
+        await Song.findByIdAndUpdate(song, update)
+        response.status(200).end()
+    }
+    catch{
+        response.status(500).end()
+    }
+}
+
+export async function SongPublication(request, response){
+    try{
+        const { song, update } = request.body
+        await Song.findByIdAndUpdate(song, update)
+        response.status(200).end()
+    }
+    catch{
+        response.status(500).end()
+    }
+}
+
+export async function DeleteSong(request, response) {
+    try{
+        const { song } = request.body
+        await Song.findByIdAndDelete(song)
+        response.status(200).end()
+    }catch{
         response.status(500).end()
     }
 }
