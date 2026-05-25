@@ -22,7 +22,8 @@ export async function AddSong(request, response){
     try{
         const { song } = request.body
         if(request.file){
-
+            const fileName = request.file.fileName
+            console.log(fileName)
         }else{
             let result = new Song(song)
             await result.save()
@@ -76,7 +77,7 @@ const storage = multer.diskStorage({
         callback(null, "./app/public/songs/")
     },
     filename: function(request, file, callback){
-        const originalName: file.originalname
+        const originalName = file.originalname
         callback(null, originalName)
     }
 })
