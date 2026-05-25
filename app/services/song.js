@@ -21,9 +21,13 @@ export async function GetSong(request, response){
 export async function AddSong(request, response){
     try{
         const { song } = request.body
-        let result = new Song(song)
-        await result.save()
-        response.status(201).end()
+        if(request.file){
+
+        }else{
+            let result = new Song(song)
+            await result.save()
+            response.status(201).end()
+        }
     }
     catch{
         response.status(500).end()
