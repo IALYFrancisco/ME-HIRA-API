@@ -20,7 +20,7 @@ export async function GetSong(request, response){
 
 export async function AddSong(request, response){
     try{
-        const { song } = request.body
+        const song = request.body
         if(request.file){
             const fileName = request.file.filename
             let newSong = new Song(song)
@@ -33,7 +33,8 @@ export async function AddSong(request, response){
             response.status(201).end()
         }
     }
-    catch{
+    catch(e){
+        console.log(e)
         response.status(500).end()
     }
 }
