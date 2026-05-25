@@ -23,6 +23,9 @@ export async function AddSong(request, response){
         const { song } = request.body
         if(request.file){
             const fileName = request.file.filename
+            let newSong = new Song(song)
+            newSong.fileUrl = `/songs/${fileName}`
+            console.log(newSong)
         }else{
             let result = new Song(song)
             await result.save()
