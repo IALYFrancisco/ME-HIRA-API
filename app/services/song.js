@@ -33,8 +33,7 @@ export async function AddSong(request, response){
             response.status(201).end()
         }
     }
-    catch(e){
-        console.log(e)
+    catch{
         response.status(500).end()
     }
 }
