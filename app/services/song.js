@@ -22,8 +22,7 @@ export async function AddSong(request, response){
     try{
         const { song } = request.body
         if(request.file){
-            const fileName = request.file.fileName
-            console.log(fileName)
+            const fileName = request.file.filename
         }else{
             let result = new Song(song)
             await result.save()
