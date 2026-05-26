@@ -31,7 +31,10 @@ export async function Login(request, response) {
 }
 
 export async function RefreshToken(request, response){
-    
+    try{}
+    catch{
+        response.status(500).end()
+    }
 }
 
 export function isAuthenticated(request, response, next){
