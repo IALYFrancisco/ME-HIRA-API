@@ -31,5 +31,13 @@ export async function Login(request, response) {
 }
 
 export function isAuthenticated(request, response, next){
-    
+    try{
+        const authorization = request.headers.authorization
+        if(!authorization){
+            retun
+        }
+    }
+    catch{
+        response.status(500).end()
+    }
 }
