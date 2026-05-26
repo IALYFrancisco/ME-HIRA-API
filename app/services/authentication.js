@@ -46,7 +46,13 @@ export async function RefreshToken(request, response){
 }
 
 export async function Logout(request, response){
-    
+    try{
+        response.clearCookie("refreshToken")
+        response.status(200).end()
+    }
+    catch{
+        response.status(500).end()
+    }
 }
 
 export function isAuthenticated(request, response, next){
