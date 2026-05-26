@@ -30,6 +30,10 @@ export async function Login(request, response) {
  }
 }
 
+export async function RefreshToken(request, response){
+    
+}
+
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
