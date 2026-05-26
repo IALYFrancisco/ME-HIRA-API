@@ -1,6 +1,6 @@
 import { compare } from "bcrypt"
 import { User } from "../models/user"
-import { sign } from "jsonwebtoken"
+import { sign, verify } from "jsonwebtoken"
 
 export async function Login(request, response) {
  try{
@@ -34,8 +34,12 @@ export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
         if(!authorization){
-            retun
+            return response.status(401).end()
         }
+        const token = authorization.split(" ")[1]
+        const decoded = verify(token, process.env.ACCESS_TOKEN_SECRET)
+        request.user = decoded
+        next()
     }
     catch{
         response.status(500).end()
