@@ -45,6 +45,10 @@ export async function RefreshToken(request, response){
     }
 }
 
+export async function Logout(request, response){
+    
+}
+
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
