@@ -2,6 +2,7 @@ import path from "path";
 import { Song } from "../models/song.js";
 import e from "express";
 import { fileURLToPath } from "url";
+import multer from "multer"
 
 export async function GetSong(request, response){
     try{
@@ -20,9 +21,17 @@ export async function GetSong(request, response){
 export async function AddSong(request, response){
     try{
         const song = request.body
-        let _song = new Song(song)
-        _song = await _song.save()
-        response.status(201).end()
+        if(request.file){
+            const fileName = request.file.filename
+            let newSong = new Song(song)
+            newSong.fileUrl = `/songs/${fileName}`
+            await newSong.save()
+            return response.status(201).end()
+        }else{
+            let result = new Song(song)
+            await result.save()
+            response.status(201).end()
+        }
     }
     catch{
         response.status(500).end()
@@ -65,3 +74,15 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export const staticFilesServConfigurations = e.static(path.join(__dirname, '../public'))
+
+const storage = multer.diskStorage({
+    destination: function(request, file, callback){
+        callback(null, "./app/public/songs/")
+    },
+    filename: function(request, file, callback){
+        const originalName = file.originalname
+        callback(null, originalName)
+    }
+})
+
+export const upload = multer({ storage })
