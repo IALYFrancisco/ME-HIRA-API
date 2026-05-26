@@ -29,3 +29,7 @@ export async function Login(request, response) {
     response.status(500).end()
  }
 }
+
+export function isAuthenticated(request, response, next){
+    
+}
