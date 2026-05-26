@@ -67,6 +67,6 @@ export function isAuthenticated(request, response, next){
         next()
     }
     catch{
-        response.status(500).end()
+        response.status(401).end()
     }
 }
