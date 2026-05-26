@@ -18,8 +18,12 @@ export async function Login(request, response) {
 
     response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: 
+        secure: process.env.APP_ENV_STATE === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000
     })
+
+    response.status(200).json({ accessToken })
  }
  catch{
     response.status(500).end()
