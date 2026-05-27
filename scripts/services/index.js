@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto"
 import { HashPassword } from "../../app/services/authentication.js"
-import { User } from "../../app/models/User.js"
+import { User } from "../../app/models/user.js"
 import chalk from "chalk"
 
 export async function CheckSuperuserAndHisEmail() {
