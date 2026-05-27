@@ -27,7 +27,7 @@ async function CreateSuperuserAndSaveLocal(){
             fs.writeFileSync(filePath, fileContents, 'utf-8')
             console.log(`Superuser informations are saved at ${filePath}`)
             await CreateSuperuser()
-            console.log(chalk.bgHex('#098702ff').hex('#fffbfc')('Done!'))
+            console.log('Done!')
         }else if(checkingResult === undefined){
             return
         }
