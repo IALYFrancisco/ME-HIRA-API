@@ -16,7 +16,7 @@ export async function CheckSuperuserAndHisEmail() {
                 return false
             }
         }else{
-            console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error checking superuser, SUPERUSER_NAME and SUPERUSER_EMAIL aren\'t defined.'))
+            console.log('Error checking superuser, SUPERUSER_NAME and SUPERUSER_EMAIL aren\'t defined.')
             return undefined
         }
     }catch(err){
