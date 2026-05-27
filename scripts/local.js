@@ -10,7 +10,7 @@ config({ quiet: true })
 
 async function CreateSuperuserAndSaveLocal(){
     try{
-        DbConnection()
+        dbConnection()
         let checkingResult = await CheckSuperuserAndHisEmail()
         if(checkingResult === true){
             return
