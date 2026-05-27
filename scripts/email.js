@@ -51,10 +51,10 @@ async function CreateSuperuserAndSendEmail(){
             </html>`
     
             let email = {
-                name: "Email from LUMINI School client to the administrator of the platform.",
+                name: "Email provenant du plateforme Me-Hira pour son superutilisateur.",
                 subject: "Informations du superutilisateur.",
                 sender: {
-                    name: "LUMINI School",
+                    name: "Me-Hira",
                     email: "franciscoialy43@gmail.com"
                 },
                 to:[{
