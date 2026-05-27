@@ -20,7 +20,7 @@ export async function CheckSuperuserAndHisEmail() {
             return undefined
         }
     }catch(err){
-        console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error checking superuser in the database.'))
+        console.log('Error checking superuser in the database.')
         return undefined
     }
 }
