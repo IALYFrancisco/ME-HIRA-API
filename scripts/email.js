@@ -8,7 +8,7 @@ config({ quiet: true })
 
 async function CreateSuperuserAndSendEmail(){
     try{
-        DbConnection()
+        dbConnection()
         let checkingResult = await CheckSuperuserAndHisEmail()
         if(checkingResult === true){
             return
