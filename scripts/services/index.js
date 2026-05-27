@@ -47,7 +47,7 @@ export async function CreateSuperuser(){
         }
     }catch(err){
         console.log(err)
-        console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error creating superuser.'))
+        console.log('Error creating superuser.')
         return undefined
     }
 }
