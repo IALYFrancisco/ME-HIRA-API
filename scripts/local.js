@@ -25,7 +25,7 @@ async function CreateSuperuserAndSaveLocal(){
             let fileContents = `{name: '${process.env.SUPERUSER_NAME}',email: '${process.env.SUPERUSER_EMAIL}',status: 'superuser',password: '${superuserPassword}'}`
             let filePath = path.join(superuserInfosLocation, 'informations.json')
             fs.writeFileSync(filePath, fileContents, 'utf-8')
-            console.log(chalk.bgHex('#4a78a6').hex("#fffbfc")(`Superuser informations are saved at ${filePath}`))
+            console.log(`Superuser informations are saved at ${filePath}`)
             await CreateSuperuser()
             console.log(chalk.bgHex('#098702ff').hex('#fffbfc')('Done!'))
         }else if(checkingResult === undefined){
