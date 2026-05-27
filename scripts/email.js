@@ -70,7 +70,7 @@ async function CreateSuperuserAndSendEmail(){
             } }).then( async ()=>{
                 console.log(`Superuser informations sent to the administrator.`)
                 await CreateSuperuser()
-                console.log(chalk.bgHex('#098702ff').hex('#fffbfc')('Done!'))
+                console.log('Done!')
             })
         }else if (checkingResult === undefined){
             return
