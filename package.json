@@ -19,6 +19,7 @@
   "main": "index.js",
   "scripts": {
     "create:superuser:local": "node ./scripts/local.js",
+    "create:superuser:email": "node ./scripts/email.js",
     "app:backup": "call scripts\\services\\backup-app.bat",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
