@@ -4,7 +4,7 @@ import { User } from "../../app/models/user.js"
 
 export async function CheckSuperuserAndHisEmail() {
     try{
-        console.log(chalk.bgHex('#4a78a6').hex("#fffbfc")("Checking superuser and his email in the database."))
+        console.log("Checking superuser and his email in the database.")
         if(process.env.SUPERUSER_EMAIL && process.env.SUPERUSER_NAME && process.env.EMAIL_SERVER_URL){
             let _user = await User.findOne({email: process.env.SUPERUSER_EMAIL})
             let user = await User.findOne({status: 'superuser'})
