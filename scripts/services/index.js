@@ -9,7 +9,7 @@ export async function CheckSuperuserAndHisEmail() {
             let _user = await User.findOne({email: process.env.SUPERUSER_EMAIL})
             let user = await User.findOne({status: 'superuser'})
             if(user || _user){
-                console.log(chalk.bgHex('#6e4d0cff').hex("#fffbfc")('A superuser already exist or an user with provided email already exist.'))
+                console.log('A superuser already exist or an user with provided email already exist.')
                 return true
             }else{
                 console.log(chalk.bgHex('#4a78a6').hex("#fffbfc")("Superuser doesn't exist, superuser creation."))
