@@ -18,7 +18,7 @@ async function CreateSuperuserAndSaveLocal(){
             let homedir = os.homedir()
             let superuserInfosLocation = path.join(
                 homedir,
-                '.luminischool',
+                '.mehira',
                 'superuser'
             )
             fs.mkdirSync(superuserInfosLocation, { recursive: true })
