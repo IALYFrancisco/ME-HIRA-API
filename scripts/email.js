@@ -13,54 +13,39 @@ async function CreateSuperuserAndSendEmail(){
         if(checkingResult === true){
             return
         }else if (checkingResult === false){
-            let emailTemplate = `<!DOCTYPE html>
-            <html lang="fr">
+            let emailTemplate = `
+            <!DOCTYPE html>
+            <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
                 <style>
-                    .poppins-regular {
-                        font-family: "Poppins", sans-serif;
-                        font-weight: 400;
-                        font-style: normal;
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    @font-face {
+                        font-family: Lato;
+                        src: url(Lato-Regular.ttf);
                     }
                 </style>
-                <title>Superuser creation</title>
+                <title>Création de superutilisateur</title>
             </head>
-            <body style="width: 100%; display: flex; justify-content: center;">
-                <section style="width: 100%; max-width: 700px; margin: 50px auto 50px auto;">
-                    <header style="background: #1b2232; width: 100%; height: 50px; border-top-left-radius: 10px; border-top-right-radius: 10px; background-position: center; background-repeat: no-repeat; background-size: cover;">
-                    </header>
-                    <main style="padding: 0 30px;">
-                        <a href="https://luminischool.onrender.com/" target="_blank" style="text-decoration: none;">
-                            <header style="padding-top: 30px; display: flex; align-items: center;">
-                                <img style="width: 50px;" src="https://raw.githubusercontent.com/IALYFrancisco/ASSETS/refs/heads/main/ME/logo-de-lumini-school.png" alt="Logo de LUMINI School">
-                                <h2 class="poppins-regular" style=" display: flex; align-items: center; color: #4a78a6;">LUMINI School</h2>
-                            </header>
-                        </a>
-                        <main style=" color: #1b2232;">
-                            <h3 class="poppins-regular">Les informations du superutilisateur créé est le suivant :</h3>
-                            <ul>
-                                <li>
-                                    <h4 class="poppins-regular" style="font-size: 14px; font-weight: 600; display: inline; color: #4a78a6;">Nom :</h4>
-                                    <p class="poppins-regular" style="font-size: 14px; display: inline;">${process.env.SUPERUSER_NAME}</p>
-                                </li>
-                                <li style="margin-top: 20px;">
-                                    <h4 class="poppins-regular" style="font-size: 14px; font-weight: 600; display: inline; color: #4a78a6;">Email :</h4>
-                                    <p class="poppins-regular" style="font-size: 14px; display: inline;">${process.env.SUPERUSER_EMAIL}</p>
-                                </li>
-                                <li style="margin-top: 20px;">
-                                    <h4 class="poppins-regular" style="font-size: 14px; font-weight: 600; display: inline; color: #4a78a6;">Mot de passe :</h4>
-                                    <p class="poppins-regular" style="font-size: 14px; display: inline;">${superuserPassword}</p>
-                                </li>
-                            </ul>
-                        </main>
-                    </main>
-                    <footer style="background: #1b2232;  width: 100%; height: 50px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; background-position: center; background-repeat: no-repeat; background-size: cover; margin-top: 50px;">
-                    </footer>
+            <body style="font-family: Lato;">
+                <section style="max-width: 300px; margin: 100px auto; display: flex; justify-content: center; flex-direction: column; text-align: center; row-gap: 25px; color: #191919;">
+                    <a href="https://mehira.onrender.com" target="_blank" style="width: max-content; margin: auto;">
+                        <img src="logo-de-me-hira.png" alt="logo du plateforme me-hira" style="width: 65px;">
+                    </a>
+                    <p>Les informations concernant le superutilisateur créé pour <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> sont les suivantes :</p>
+                    <div class="superuser-info">
+                        <h3>Nom :</h3><p>${process.env.SUPERUSER_NAME}</p>
+                    </div>
+                    <div class="superuser-info">
+                        <h3>Email :</h3><p>${process.env.SUPERUSER_EMAIL}</p>
+                    </div>
+                    <div class="superuser-info">
+                        <h3>Mot de passe :</h3><p>${superuserPassword}</p>
+                    </div>
+                    <a target="_blank" href="https://mehira.onrender.com/authentication/login" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: auto;">
+                        <button style="padding: 10px 15px;background-color: #FEC700;border: none;border-radius: 10px;cursor: pointer; color: #191919;">Aller à la page de connexion</button>
+                    </a>
                 </section>
             </body>
             </html>`
