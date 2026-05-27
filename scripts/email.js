@@ -78,7 +78,7 @@ async function CreateSuperuserAndSendEmail(){
     }
     catch(err){
         console.log(err)
-        console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error sending to email the superuser informations.'))
+        console.log('Error sending to email the superuser informations.')
     }finally{
         await disconnect()
     }
