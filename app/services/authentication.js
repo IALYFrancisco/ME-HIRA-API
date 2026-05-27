@@ -70,3 +70,12 @@ export function isAuthenticated(request, response, next){
         response.status(401).end()
     }
 }
+
+export async function HashPassword(plainText) {
+    try {
+        let _hash = await hash(plainText, 10)
+        return _hash
+    }catch{
+        return undefined
+    }
+}
