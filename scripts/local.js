@@ -34,7 +34,7 @@ async function CreateSuperuserAndSaveLocal(){
     }
     catch(err){
         console.log(err)
-        console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error saving local the superuser informations.'))
+        console.log('Error saving local the superuser informations.')
     }finally{
         await disconnect()
     }
