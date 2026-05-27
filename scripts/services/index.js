@@ -39,7 +39,7 @@ export async function CreateSuperuser(){
         let newSuperuser = new User(superuser)
         let result = await newSuperuser.save()
         if(result){
-            console.log(chalk.bgHex('#098702ff').hex('#fffbfc')('Superuser created in the database.'))
+            console.log('Superuser created in the database.')
             return true
         }else{
             console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error saving superuser in the database.'))
