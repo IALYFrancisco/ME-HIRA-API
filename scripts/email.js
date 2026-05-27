@@ -1,6 +1,6 @@
 import { CheckSuperuserAndHisEmail, CreateSuperuser, superuserPassword } from "./services/index.js";
 import { config } from "dotenv";
-import { DbConnection } from '../app/services/db_connection.js'
+import { dbConnection } from "../app/services/database.js";
 import { disconnect } from "mongoose";
 import axios from "axios";
 
