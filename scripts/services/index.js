@@ -12,7 +12,7 @@ export async function CheckSuperuserAndHisEmail() {
                 console.log('A superuser already exist or an user with provided email already exist.')
                 return true
             }else{
-                console.log(chalk.bgHex('#4a78a6').hex("#fffbfc")("Superuser doesn't exist, superuser creation."))
+                console.log("Superuser doesn't exist, superuser creation.")
                 return false
             }
         }else{
