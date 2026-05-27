@@ -42,7 +42,7 @@ export async function CreateSuperuser(){
             console.log('Superuser created in the database.')
             return true
         }else{
-            console.log(chalk.bgHex('#870202ff').hex('#fffbfc')('Error saving superuser in the database.'))
+            console.log('Error saving superuser in the database.')
             return undefined
         }
     }catch(err){
