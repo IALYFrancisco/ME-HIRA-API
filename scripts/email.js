@@ -68,7 +68,7 @@ async function CreateSuperuserAndSendEmail(){
                 "Content-Type": "application/json",
                 "api-key": process.env.EMAIL_API_KEY
             } }).then( async ()=>{
-                console.log(chalk.bgHex('#4a78a6').hex("#fffbfc")(`Superuser informations sent to the administrator.`))
+                console.log(`Superuser informations sent to the administrator.`)
                 await CreateSuperuser()
                 console.log(chalk.bgHex('#098702ff').hex('#fffbfc')('Done!'))
             })
