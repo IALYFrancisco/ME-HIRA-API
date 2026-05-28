@@ -1,4 +1,4 @@
-import { Router } from "e"
+import { Router } from "express"
 import { Login, Logout, RefreshToken } from "../services/authentication"
 
 export const authenticationRouter = Router()
