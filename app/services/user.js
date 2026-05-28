@@ -3,6 +3,6 @@ export function isAdminOrSuperuser(request, response, next) {
     if(user.status === "admin" || user.status === "superuser"){
         next()
     }else{
-        response.status(409).end()
+        response.status(403).end()
     }
 }
