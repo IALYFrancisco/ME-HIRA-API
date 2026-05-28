@@ -36,8 +36,8 @@ export async function RefreshToken(request, response){
         if(!refreshToken){
             return response.status(401).end()
         }
-        const decoded = verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        const accessToken = sign({ _id: decoded._id }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+        const accessToken = jwt.sign({ _id: decoded._id }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
         response.status(200).json({accessToken})
     }
     catch{
