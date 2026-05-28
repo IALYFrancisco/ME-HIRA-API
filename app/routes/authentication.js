@@ -5,4 +5,4 @@ export const authenticationRouter = Router()
 
 authenticationRouter.post('/login', Login)
 authenticationRouter.post('/refresh-token', RefreshToken)
-authenticationRouter.post('/refresh-token', Logout)
+authenticationRouter.post('/logout', Logout)
