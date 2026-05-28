@@ -41,7 +41,7 @@ export async function RefreshToken(request, response){
         response.status(200).json({accessToken})
     }
     catch{
-        response.status(500).end()
+        response.status(401).end()
     }
 }
 
