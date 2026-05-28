@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { Login, Logout, RefreshToken } from "../services/authentication"
+import { Login, Logout, RefreshToken } from "../services/authentication.js"
 
 export const authenticationRouter = Router()
 
