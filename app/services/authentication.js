@@ -1,6 +1,6 @@
-import { compare } from "bcrypt"
-import { User } from "../models/user"
-import { sign, verify } from "jsonwebtoken"
+import { compare, hash } from "bcrypt"
+import { User } from "../models/user.js"
+import jwt from "jsonwebtoken"
 
 export async function Login(request, response) {
  try{
@@ -13,13 +13,13 @@ export async function Login(request, response) {
     if(!match){
         return response.status(401).end()
     }
-    const accessToken = sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
-    const refreshToken = sign({ _id: user._id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    const accessToken = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const refreshToken = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
     response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.APP_ENV_STATE === "production",
-        sameSite: "strict",
+        sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
@@ -36,12 +36,12 @@ export async function RefreshToken(request, response){
         if(!refreshToken){
             return response.status(401).end()
         }
-        const decoded = verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        const accessToken = sign({ _id: decoded._id }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+        const accessToken = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
         response.status(200).json({accessToken})
     }
     catch{
-        response.status(500).end()
+        response.status(401).end()
     }
 }
 
@@ -62,11 +62,20 @@ export function isAuthenticated(request, response, next){
             return response.status(401).end()
         }
         const token = authorization.split(" ")[1]
-        const decoded = verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         request.user = decoded
         next()
     }
     catch{
-        response.status(500).end()
+        response.status(401).end()
+    }
+}
+
+export async function HashPassword(plainText) {
+    try {
+        let _hash = await hash(plainText, 10)
+        return _hash
+    }catch{
+        return undefined
     }
 }

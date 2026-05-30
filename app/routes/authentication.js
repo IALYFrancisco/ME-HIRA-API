@@ -1,8 +1,8 @@
-import { Router } from "e"
-import { Login, Logout, RefreshToken } from "../services/authentication"
+import { Router } from "express"
+import { Login, Logout, RefreshToken } from "../services/authentication.js"
 
 export const authenticationRouter = Router()
 
 authenticationRouter.post('/login', Login)
 authenticationRouter.post('/refresh-token', RefreshToken)
-authenticationRouter.post('/refresh-token', Logout)
+authenticationRouter.post('/logout', Logout)
