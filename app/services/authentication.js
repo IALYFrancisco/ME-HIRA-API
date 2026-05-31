@@ -16,7 +16,7 @@ export async function Login(request, response) {
     const accessToken = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
     const refreshToken = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
-    response.cookie("refreshToken", refreshToken, {
+    response.cookie("tk.sid", refreshToken, {
         httpOnly: true,
         secure: process.env.APP_ENV_STATE === "production",
         sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
