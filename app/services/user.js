@@ -7,7 +7,7 @@ export function isAdminOrSuperuser(request, response, next) {
     }
 }
 
-export function getCurrentUserInformations(request, response){
+export function GetCurrentUserInformations(request, response){
     try{
         let { user } = request
         user = await User.findOne({ _id: user._id }, { __v: 0, password: 0 })
