@@ -8,5 +8,8 @@ export function isAdminOrSuperuser(request, response, next) {
 }
 
 export function getCurrentUserInformations(request, response){
-    
+    try{}
+    catch{
+        response.status(500).end()
+    }
 }
