@@ -13,7 +13,7 @@ export async function Login(request, response) {
     if(!match){
         return response.status(401).end()
     }
-    const accessToken = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const tk_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
     const refreshToken = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
     response.cookie("tk.sid", refreshToken, {
@@ -23,7 +23,7 @@ export async function Login(request, response) {
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
-    response.status(200).json({ accessToken })
+    response.status(200).json({ tk_sid })
  }
  catch{
     response.status(500).end()
