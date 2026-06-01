@@ -6,3 +6,7 @@ export function isAdminOrSuperuser(request, response, next) {
         response.status(403).end()
     }
 }
+
+export function getCurrentUserInformations(request, response){
+    
+}
