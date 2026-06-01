@@ -13,17 +13,17 @@ export async function Login(request, response) {
     if(!match){
         return response.status(401).end()
     }
-    const tk_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
-    const refreshToken = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    const at_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const rt_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
-    response.cookie("tk.sid", refreshToken, {
+    response.cookie("rt.sid", rt_sid, {
         httpOnly: true,
         secure: process.env.APP_ENV_STATE === "production",
         sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
-    response.status(200).json({ tk_sid })
+    response.status(200).json({ at_sid })
  }
  catch{
     response.status(500).end()
