@@ -13,17 +13,17 @@ export async function Login(request, response) {
     if(!match){
         return response.status(401).end()
     }
-    const accessToken = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
-    const refreshToken = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    const at_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const rt_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
-    response.cookie("tk.sid", refreshToken, {
+    response.cookie("rt.sid", rt_sid, {
         httpOnly: true,
         secure: process.env.APP_ENV_STATE === "production",
         sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
-    response.status(200).json({ accessToken })
+    response.status(200).json({ at_sid })
  }
  catch{
     response.status(500).end()
@@ -32,13 +32,13 @@ export async function Login(request, response) {
 
 export async function RefreshToken(request, response){
     try{
-        const refreshToken = request.cookies.refreshToken
-        if(!refreshToken){
+        const rt_sid = request.cookies["rt.sid"]
+        if(!rt_sid){
             return response.status(401).end()
         }
-        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        const accessToken = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
-        response.status(200).json({accessToken})
+        const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
+        const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
+        response.status(200).json({tk_sid})
     }
     catch{
         response.status(401).end()
@@ -47,7 +47,7 @@ export async function RefreshToken(request, response){
 
 export async function Logout(request, response){
     try{
-        response.clearCookie("refreshToken")
+        response.clearCookie("rt.sid")
         response.status(200).end()
     }
     catch{
@@ -58,16 +58,18 @@ export async function Logout(request, response){
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
-        if(!authorization){
-            return response.status(401).end()
+        const rt_sid = request.cookies["rt.sid"]
+        
+        if(!authorization || !rt_sid){
+            return response.status(209).end()
         }
-        const token = authorization.split(" ")[1]
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const at_sid = authorization.split(" ")[1]
+        const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
         request.user = decoded
         next()
     }
     catch{
-        response.status(401).end()
+        response.status(209).end()
     }
 }
 
