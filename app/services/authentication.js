@@ -47,7 +47,7 @@ export async function RefreshToken(request, response){
 
 export async function Logout(request, response){
     try{
-        response.clearCookie("tk.sid")
+        response.clearCookie("rt.sid")
         response.status(200).end()
     }
     catch{
