@@ -58,7 +58,7 @@ export async function Logout(request, response){
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
-        const refreshToken = request.cookie.refreshToken
+        const refreshToken = request.cookies.refreshToken
         if(!authorization || !refreshToken){
             return response.status(209).end()
         }
