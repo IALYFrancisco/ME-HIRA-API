@@ -1,3 +1,5 @@
+import { User } from "../models/user"
+
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
     if(user.status === "admin" || user.status === "superuser"){
