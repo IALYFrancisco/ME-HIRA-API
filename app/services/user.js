@@ -8,7 +8,11 @@ export function isAdminOrSuperuser(request, response, next) {
 }
 
 export function getCurrentUserInformations(request, response){
-    try{}
+    try{
+        let { user } = request
+        user = await User.findOne({ _id: user._id }, { __v: 0, password: 0 })
+        response.status(200).json(user)
+    }
     catch{
         response.status(500).end()
     }
