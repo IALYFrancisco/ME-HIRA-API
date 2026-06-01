@@ -58,13 +58,13 @@ export async function Logout(request, response){
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
-        const refreshToken = request.cookies["tk.sid"]
+        const rt_sid = request.cookies["rt.sid"]
         
-        if(!authorization || !refreshToken){
+        if(!authorization || !rt_sid){
             return response.status(209).end()
         }
-        const tk_sid = authorization.split(" ")[1]
-        const decoded = jwt.verify(tk_sid, process.env.ACCESS_TOKEN_SECRET)
+        const at_sid = authorization.split(" ")[1]
+        const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
         request.user = decoded
         next()
     }
