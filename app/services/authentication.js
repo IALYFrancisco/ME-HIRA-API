@@ -47,7 +47,7 @@ export async function RefreshToken(request, response){
 
 export async function Logout(request, response){
     try{
-        response.clearCookie("refreshToken")
+        response.clearCookie("tk.sid")
         response.status(200).end()
     }
     catch{
@@ -58,7 +58,8 @@ export async function Logout(request, response){
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
-        const refreshToken = request.cookies.refreshToken
+        const refreshToken = request.cookies["tk.sid"]
+        
         if(!authorization || !refreshToken){
             return response.status(209).end()
         }
