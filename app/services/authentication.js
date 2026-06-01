@@ -37,8 +37,8 @@ export async function RefreshToken(request, response){
             return response.status(401).end()
         }
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        const accessToken = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
-        response.status(200).json({accessToken})
+        const tk_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
+        response.status(200).json({tk_sid})
     }
     catch{
         response.status(401).end()
