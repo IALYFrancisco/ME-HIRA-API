@@ -58,6 +58,7 @@ export async function Logout(request, response){
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
+        const refreshToken = 
         if(!authorization){
             return response.status(401).end()
         }
