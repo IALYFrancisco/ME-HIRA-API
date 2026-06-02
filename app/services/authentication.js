@@ -34,14 +34,14 @@ export async function RefreshToken(request, response){
     try{
         const rt_sid = request.cookies["rt.sid"]
         if(!rt_sid){
-            return response.status(401).end()
+            return response.status(209).end()
         }
         const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
         const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
         response.status(200).json({tk_sid})
     }
     catch{
-        response.status(401).end()
+        response.status(209).end()
     }
 }
 
