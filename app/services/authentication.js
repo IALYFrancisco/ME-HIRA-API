@@ -73,7 +73,7 @@ export function isAuthenticated(request, response, next){
     }
 }
 
-export function isAuthenticated(request, response, next){
+export function isNotAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
         const rt_sid = request.cookies["rt.sid"]
