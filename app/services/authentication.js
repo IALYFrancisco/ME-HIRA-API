@@ -80,15 +80,15 @@ export function isNotAuthenticated(request, response, next){
         const rt_sid = request.cookies["rt.sid"]
         
         if(!authorization || !rt_sid){
-            return response.status(209).end()
+            return next()
         }
         const at_sid = authorization.split(" ")[1]
         const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
-        request.user = decoded
-        next()
+        jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
+        response.status(209).end()
     }
     catch{
-        response.status(209).end()
+        next()
     }
 }
 
