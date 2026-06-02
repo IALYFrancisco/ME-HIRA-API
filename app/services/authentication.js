@@ -65,6 +65,7 @@ export function isAuthenticated(request, response, next){
         }
         const at_sid = authorization.split(" ")[1]
         const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
+        jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
         request.user = decoded
         next()
     }
