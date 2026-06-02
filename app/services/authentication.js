@@ -73,6 +73,24 @@ export function isAuthenticated(request, response, next){
     }
 }
 
+export function isAuthenticated(request, response, next){
+    try{
+        const authorization = request.headers.authorization
+        const rt_sid = request.cookies["rt.sid"]
+        
+        if(!authorization || !rt_sid){
+            return response.status(209).end()
+        }
+        const at_sid = authorization.split(" ")[1]
+        const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
+        request.user = decoded
+        next()
+    }
+    catch{
+        response.status(209).end()
+    }
+}
+
 export async function HashPassword(plainText) {
     try {
         let _hash = await hash(plainText, 10)
