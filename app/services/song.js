@@ -7,14 +7,31 @@ import multer from "multer"
 export async function GetSong(request, response){
     try{
 
-        let at_sid = request.headers.authorization.split("")[1]
+        let authorization = request.headers.authorization
+        let rt_sid = request.cookies["rt.sid"]
 
-        if( request.query.slug ){
-            let song = await Song.findOne({ slug: request.query.slug })
-            response.status(200).json(song)
+        if(!authorization || !rt_sid){
+
+            if( request.query.slug ){
+                let song = await Song.findOne({ slug: request.query.slug, published: true })
+                response.status(200).json(song)
+            }
+            let songs = await Song.find({ published: true })
+            response.status(200).json(songs)
+
         }
-        let songs = await Song.find()
-        response.status(200).json(songs)
+
+        if(authorization && rt_sid){
+
+            if( request.query.slug ){
+                let song = await Song.findOne({ slug: request.query.slug })
+                response.status(200).json(song)
+            }
+            let songs = await Song.find()
+            response.status(200).json(songs)
+            
+        }
+
     }
     catch{
         response.status(500).end()
