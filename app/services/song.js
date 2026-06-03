@@ -6,6 +6,9 @@ import multer from "multer"
 
 export async function GetSong(request, response){
     try{
+
+        let at_sid = request.headers.authorization.split("")[1]
+
         if( request.query.slug ){
             let song = await Song.findOne({ slug: request.query.slug })
             response.status(200).json(song)
