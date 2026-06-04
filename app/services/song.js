@@ -107,3 +107,16 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage })
 
 const execFileAsync = promisify(execFile)
+
+export async function getVideoDuration(filePath) {
+    const {stdout} = await execFileAsync("ffprobe", [
+        "-v",
+        "quiet",
+        "-print_format",
+        "json",
+        "-show_format",
+        filePath
+    ])
+    const data = JSON.parse(stdout)
+    return Math.round(data.format.duration)
+}
