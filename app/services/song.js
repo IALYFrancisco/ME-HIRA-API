@@ -30,8 +30,8 @@ export async function GetSong(request, response){
         let songs = await Song.find({ published: true })
         response.status(200).json(songs)
     }
-    catch(err){
-        response.status(500).json(err)
+    catch{
+        response.status(500).end()
     }
 }
 
