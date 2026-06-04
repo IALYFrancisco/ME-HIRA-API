@@ -53,7 +53,7 @@ export async function AddSong(request, response){
             let newSong = new Song(song)
             newSong.fileUrl = `/songs/${fileName}`
             newSong.duration = durationSeconds
-            newSong.thumbnailUrl = thumbnailPath
+            newSong.thumbnailUrl = `/thumbnails/${thumbName}`
             await newSong.save()
             return response.status(201).end()
         }else{
