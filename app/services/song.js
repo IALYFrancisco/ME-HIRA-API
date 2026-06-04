@@ -41,6 +41,7 @@ export async function AddSong(request, response){
     try{
         const song = request.body
         if(request.file){
+            let filePath = request.file.path
             const fileName = request.file.filename
             let newSong = new Song(song)
             newSong.fileUrl = `/songs/${fileName}`
