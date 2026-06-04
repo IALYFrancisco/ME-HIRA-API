@@ -10,7 +10,7 @@ export async function GetSong(request, response){
 
         let authorization = request.headers.authorization
         let rt_sid = request.cookies["rt.sid"]
-        const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
+        const decoded = rt_sid ? jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET) : null
 
         if(authorization && rt_sid && decoded.status==="superuser"){
             let at_sid = authorization.split(" ")[1]
