@@ -31,7 +31,7 @@ export async function GetSong(request, response){
         response.status(200).json(songs)
     }
     catch(err){
-        response.status(500).end(err)
+        response.status(500).json(err)
     }
 }
 
