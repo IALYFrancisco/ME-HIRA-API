@@ -3,14 +3,31 @@ import { Song } from "../models/song.js";
 import e from "express";
 import { fileURLToPath } from "url";
 import multer from "multer"
+import jwt from "jsonwebtoken"
 
 export async function GetSong(request, response){
     try{
+
+        let authorization = request.headers.authorization
+        let rt_sid = request.cookies["rt.sid"]
+        const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
+
+        if(authorization && rt_sid && decoded.status==="superuser"){
+            let at_sid = authorization.split(" ")[1]
+            jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
+            if( request.query.slug ){
+                let song = await Song.findOne({ slug: request.query.slug})
+                response.status(200).json(song)
+            }
+            let songs = await Song.find()
+            response.status(200).json(songs)
+        }
+
         if( request.query.slug ){
-            let song = await Song.findOne({ slug: request.query.slug })
+            let song = await Song.findOne({ slug: request.query.slug, published: true })
             response.status(200).json(song)
         }
-        let songs = await Song.find()
+        let songs = await Song.find({ published: true })
         response.status(200).json(songs)
     }
     catch{

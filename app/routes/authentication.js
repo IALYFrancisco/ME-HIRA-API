@@ -1,8 +1,8 @@
 import { Router } from "express"
-import { Login, Logout, RefreshToken } from "../services/authentication.js"
+import { isAuthenticated, isNotAuthenticated, Login, Logout, RefreshToken } from "../services/authentication.js"
 
 export const authenticationRouter = Router()
 
-authenticationRouter.post('/login', Login)
+authenticationRouter.post('/login', isNotAuthenticated, Login)
 authenticationRouter.post('/refresh-token', RefreshToken)
-authenticationRouter.post('/logout', Logout)
+authenticationRouter.post('/logout', isAuthenticated, Logout)

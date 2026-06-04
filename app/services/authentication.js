@@ -34,14 +34,14 @@ export async function RefreshToken(request, response){
     try{
         const rt_sid = request.cookies["rt.sid"]
         if(!rt_sid){
-            return response.status(401).end()
+            return response.status(209).end()
         }
         const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
         const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
         response.status(200).json({tk_sid})
     }
     catch{
-        response.status(401).end()
+        response.status(209).end()
     }
 }
 
@@ -65,11 +65,30 @@ export function isAuthenticated(request, response, next){
         }
         const at_sid = authorization.split(" ")[1]
         const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
+        jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
         request.user = decoded
         next()
     }
     catch{
         response.status(209).end()
+    }
+}
+
+export function isNotAuthenticated(request, response, next){
+    try{
+        const authorization = request.headers.authorization
+        const rt_sid = request.cookies["rt.sid"]
+        
+        if(!authorization || !rt_sid){
+            return next()
+        }
+        const at_sid = authorization.split(" ")[1]
+        const decoded = jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
+        jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
+        response.status(209).end()
+    }
+    catch{
+        next()
     }
 }
 
