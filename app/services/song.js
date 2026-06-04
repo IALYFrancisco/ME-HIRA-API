@@ -120,3 +120,7 @@ export async function getVideoDuration(filePath) {
     const data = JSON.parse(stdout)
     return Math.round(data.format.duration)
 }
+
+export async function generateThumbnail(videoPath, outputPath) {
+    
+}
