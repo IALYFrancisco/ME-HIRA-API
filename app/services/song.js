@@ -46,7 +46,7 @@ export async function AddSong(request, response){
             const durationSeconds = await getVideoDuration(filePath)
             
             const thumbName = `${Date.now()}.jpg`
-            const thumbnailPath = path.join("thumbnails", thumbName)
+            const thumbnailPath = path.join("app","public","thumbnails", thumbName)
             await generateThumbnail(filePath, thumbnailPath)
             
             const fileName = request.file.filename
@@ -132,11 +132,12 @@ export async function getVideoDuration(filePath) {
 }
 
 export async function generateThumbnail(videoPath, outputPath) {
+
     await execFileAsync("ffmpeg", [
+        "-ss",
+        "10",
         "-i",
         videoPath,
-        "-ss",
-        "00:00:30.000",
         "-vframes",
         "1",
         "-q:v",
