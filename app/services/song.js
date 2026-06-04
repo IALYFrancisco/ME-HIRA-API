@@ -4,6 +4,8 @@ import e from "express";
 import { fileURLToPath } from "url";
 import multer from "multer"
 import jwt from "jsonwebtoken"
+import { execFile } from "child_process";
+import { promisify } from "util";
 
 export async function GetSong(request, response){
     try{
@@ -103,3 +105,5 @@ const storage = multer.diskStorage({
 })
 
 export const upload = multer({ storage })
+
+const execFileAsync = promisify(execFile)
