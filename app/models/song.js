@@ -11,6 +11,8 @@ const songSchema = new Schema({
     fileType: { type: String, required: true },
     singer: { type: Array, required: true },
     published: { type: Boolean, required: true, default: false },
+    duration: { type: Number, required:true },
+    thumbnailUrl: { type: String, required:true },
     slug: { type: String, unique: true, index: true },
     slugId: { type: String, unique: true, index: true }
 }, { timestamps: true })
