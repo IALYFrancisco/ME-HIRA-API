@@ -38,7 +38,7 @@ export async function RefreshToken(request, response){
         }
         const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
         const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
-        response.status(200).json({tk_sid})
+        response.status(200).json({at_sid})
     }
     catch{
         response.status(409).end()
