@@ -41,7 +41,7 @@ export async function RefreshToken(request, response){
         response.status(200).json({tk_sid})
     }
     catch{
-        response.status(209).end()
+        response.status(409).end()
     }
 }
 
