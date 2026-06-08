@@ -13,7 +13,7 @@ export async function Login(request, response) {
     if(!match){
         return response.status(401).end()
     }
-    const at_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" })
+    const at_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5m" })
     const rt_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
 
     response.cookie("rt.sid", rt_sid, {
@@ -37,7 +37,7 @@ export async function RefreshToken(request, response){
             return response.status(209).end()
         }
         const decoded = jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET)
-        const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"10m"})
+        const at_sid = jwt.sign({ _id: decoded._id, status: decoded.status }, process.env.ACCESS_TOKEN_SECRET, {expiresIn:"5m"})
         response.status(200).json({at_sid})
     }
     catch{
