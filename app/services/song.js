@@ -29,6 +29,22 @@ export async function GetSong(request, response){
             let song = await Song.findOne({ slug: request.query.slug, published: true })
             response.status(200).json(song)
         }
+        if( request.body.prompt && request.body.prompt.trim() !== "" ){
+            const { prompt } = request.body
+            const p = normalizeText(prompt)
+            const rawSongs = await Song.find({
+                $nor: [
+                    { title: new RegExp(prompt, "i") },
+                    { singer: new RegExp(prompt, "i") }
+                ]
+            }).limit(100)
+            const filtered = rawSongs.filter(song =>{
+                const title = normalizeText(song.title)
+                const singer = normalizeText(song.singer)
+                return title.includes(p) || singer.includes(p)
+            })
+            return response.status(200).json(filtered.slice(0, 20))
+        }
         let songs = await Song.find({ published: true })
         response.status(200).json(songs)
     }
