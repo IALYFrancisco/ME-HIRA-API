@@ -149,3 +149,9 @@ export async function generateThumbnail(videoPath, outputPath) {
     ])
     return outputPath
 }
+
+function normalizeText(text){
+    return text.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+}
