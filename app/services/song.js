@@ -29,7 +29,7 @@ export async function GetSong(request, response){
             let song = await Song.findOne({ slug: request.query.slug, published: true })
             return response.status(200).json(song)
         }
-        if( request.body?.prompt && request.body.prompt.trim() !== "" ){
+        if( request.query?.prompt && request.query.prompt.trim() !== "" ){
             const { prompt } = request.body
             const p = normalizeText(prompt)
             const rawSongs = await Song.find({
