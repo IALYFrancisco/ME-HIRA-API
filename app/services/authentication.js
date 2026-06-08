@@ -14,7 +14,7 @@ export async function Login(request, response) {
         return response.status(401).end()
     }
     const at_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5m" })
-    const rt_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" })
+    const rt_sid = jwt.sign({ _id: user._id, status: user.status }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1d" })
 
     response.cookie("rt.sid", rt_sid, {
         httpOnly: true,
