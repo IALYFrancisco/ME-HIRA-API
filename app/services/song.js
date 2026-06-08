@@ -30,7 +30,7 @@ export async function GetSong(request, response){
             return response.status(200).json(song)
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-            const { prompt } = request.body
+            const { prompt } = request.query
             const p = normalizeText(prompt)
             const rawSongs = await Song.find({
                 $nor: [
