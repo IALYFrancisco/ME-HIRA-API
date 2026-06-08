@@ -27,9 +27,9 @@ export async function GetSong(request, response){
 
         if( request.query.slug ){
             let song = await Song.findOne({ slug: request.query.slug, published: true })
-            response.status(200).json(song)
+            return response.status(200).json(song)
         }
-        if( request.body.prompt && request.body.prompt.trim() !== "" ){
+        if( request.body?.prompt && request.body.prompt.trim() !== "" ){
             const { prompt } = request.body
             const p = normalizeText(prompt)
             const rawSongs = await Song.find({
@@ -52,6 +52,7 @@ export async function GetSong(request, response){
         if(error.name === 'TokenExpiredError'){
             return response.status(209).end()
         }
+        console.log(error)
         response.status(500).end()
     }
 }
