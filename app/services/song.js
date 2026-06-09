@@ -52,7 +52,6 @@ export async function GetSong(request, response){
         if(error.name === 'TokenExpiredError'){
             return response.status(209).end()
         }
-        console.log(error)
         response.status(500).end()
     }
 }
