@@ -168,7 +168,12 @@ export async function generateThumbnail(videoPath, outputPath) {
 }
 
 function normalizeText(text){
-    return text.toLowerCase()
+    if(Array.isArray(text)){
+        text = text.join(" ")
+    }
+
+    return String(text || "")
+        .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
 }
