@@ -33,7 +33,7 @@ export async function GetSong(request, response){
             const { prompt } = request.query
             const p = normalizeText(prompt)
             const rawSongs = await Song.find({
-                $nor: [
+                $or: [
                     { title: new RegExp(prompt, "i") },
                     { singer: new RegExp(prompt, "i") }
                 ]
@@ -52,7 +52,6 @@ export async function GetSong(request, response){
         if(error.name === 'TokenExpiredError'){
             return response.status(209).end()
         }
-        console.log(error)
         response.status(500).end()
     }
 }
@@ -168,7 +167,12 @@ export async function generateThumbnail(videoPath, outputPath) {
 }
 
 function normalizeText(text){
-    return text.toLowerCase()
+    if(Array.isArray(text)){
+        text = text.join(" ")
+    }
+
+    return String(text || "")
+        .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
 }
