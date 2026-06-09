@@ -33,7 +33,7 @@ export async function GetSong(request, response){
             const { prompt } = request.query
             const p = normalizeText(prompt)
             const rawSongs = await Song.find({
-                $nor: [
+                $or: [
                     { title: new RegExp(prompt, "i") },
                     { singer: new RegExp(prompt, "i") }
                 ]
