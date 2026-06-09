@@ -27,7 +27,23 @@ export async function GetSong(request, response){
 
         if( request.query.slug ){
             let song = await Song.findOne({ slug: request.query.slug, published: true })
-            response.status(200).json(song)
+            return response.status(200).json(song)
+        }
+        if( request.query?.prompt && request.query.prompt.trim() !== "" ){
+            const { prompt } = request.query
+            const p = normalizeText(prompt)
+            const rawSongs = await Song.find({
+                $nor: [
+                    { title: new RegExp(prompt, "i") },
+                    { singer: new RegExp(prompt, "i") }
+                ]
+            }).limit(100)
+            const filtered = rawSongs.filter(song =>{
+                const title = normalizeText(song.title)
+                const singer = normalizeText(song.singer)
+                return title.includes(p) || singer.includes(p)
+            })
+            return response.status(200).json(filtered.slice(0, 20))
         }
         let songs = await Song.find({ published: true })
         response.status(200).json(songs)
@@ -36,6 +52,7 @@ export async function GetSong(request, response){
         if(error.name === 'TokenExpiredError'){
             return response.status(209).end()
         }
+        console.log(error)
         response.status(500).end()
     }
 }
@@ -148,4 +165,10 @@ export async function generateThumbnail(videoPath, outputPath) {
         outputPath
     ])
     return outputPath
+}
+
+function normalizeText(text){
+    return text.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
 }
