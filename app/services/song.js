@@ -36,7 +36,7 @@ export async function GetSong(request, response){
                 $or: [
                     { title: new RegExp(prompt, "i") },
                     { singer: new RegExp(prompt, "i") }
-                ]
+                ],{ published }
             }).limit(100)
             const filtered = rawSongs.filter(song =>{
                 const title = normalizeText(song.title)
@@ -174,5 +174,4 @@ function normalizeText(text){
     return String(text || "")
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-}
+        .replace(/[\u0300-\u036f
