@@ -6,6 +6,8 @@ import multer from "multer"
 import jwt from "jsonwebtoken"
 import { execFile } from "child_process";
 import { promisify } from "util";
+import ffmpegPath from "ffmpeg-static";
+import ffprobe from "ffprobe-static";
 
 export async function GetSong(request, response){
     try{
@@ -135,16 +137,22 @@ export const upload = multer({ storage })
 const execFileAsync = promisify(execFile)
 
 export async function getVideoDuration(filePath) {
-    const {stdout} = await execFileAsync("ffprobe", [
-        "-v",
-        "quiet",
-        "-print_format",
-        "json",
-        "-show_format",
-        filePath
-    ])
+
+    const { stdout } = await execFileAsync(
+        ffprobe.path,
+        [
+            "-v",
+            "quiet",
+            "-print_format",
+            "json",
+            "-show_format",
+            filePath
+        ]
+    )
+
     const data = JSON.parse(stdout)
-    return Math.round(data.format.duration)
+
+    return Math.round(Number(data.format.duration))
 }
 
 export async function generateThumbnail(videoPath, outputPath) {
