@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import { nanoid } from "nanoid";
 import slugify from "slugify"
+import { normalizeText } from "../services/song";
 
 const songSchema = new Schema({
     title: { type: String, required: true },
@@ -44,7 +45,9 @@ songSchema.pre("save", async function () {
         )
 
         this.slug = `${baseSlug}-${this.slugId}`
-        this.normalized_title = 
+        this.normalized_title = normalizeText(this.title)
+        let singer = this.singer.split(",")
+        this.singer = normalizeText(singer)
     }
 })
 
