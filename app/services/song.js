@@ -167,7 +167,7 @@ export async function generateThumbnail(videoPath, outputPath) {
     return outputPath
 }
 
-function normalizeText(text){
+export function normalizeText(text){
     if(Array.isArray(text)){
         text = text.join(" ")
     }
