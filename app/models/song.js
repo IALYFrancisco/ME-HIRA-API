@@ -15,7 +15,8 @@ const songSchema = new Schema({
     thumbnailUrl: { type: String, required:true },
     slug: { type: String, unique: true, index: true },
     slugId: { type: String, unique: true, index: true },
-    normalized_title : { type: String, required: true }
+    normalized_title : { type: String, required: true },
+    normalized_singer : { type: String, required: true }
 }, { timestamps: true })
 
 songSchema.set("optimisticConcurrency", true)
@@ -46,4 +47,4 @@ songSchema.pre("save", async function () {
     }
 })
 
-export const Song = new model('Song', songSchema)
+export const Song = new model('Song', songSchema
