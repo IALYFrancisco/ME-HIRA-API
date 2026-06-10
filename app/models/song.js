@@ -47,7 +47,7 @@ songSchema.pre("save", async function () {
         this.slug = `${baseSlug}-${this.slugId}`
         this.normalized_title = normalizeText(this.title)
         let singer = this.singer.split(",")
-        this.singer = normalizeText(singer)
+        this.normalized_singer = normalizeText(singer)
     }
 })
 
