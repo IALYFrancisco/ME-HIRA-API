@@ -83,9 +83,8 @@ export async function AddSong(request, response){
             response.status(201).end()
         }
     }
-    catch(error){
-        console.log(error)
-        response.status(500).json(error)
+    catch{
+        response.status(500).end()
     }
 }
 
