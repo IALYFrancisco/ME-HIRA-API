@@ -31,19 +31,15 @@ export async function GetSong(request, response){
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
             const { prompt } = request.query
-            const p = normalizeText(prompt)
-            const rawSongs = await Song.find({
+            const normalized_prompt = normalizeText(prompt)
+            const song = await Song.find({
+                published:true,
                 $or: [
-                    { title: new RegExp(prompt, "i") },
-                    { singer: new RegExp(prompt, "i") }
+                    { normalized_title: new RegExp(normalized_prompt, "i") },
+                    { normalized_singer: new RegExp(normalized_prompt, "i") }
                 ]
-            }).limit(100)
-            const filtered = rawSongs.filter(song =>{
-                const title = normalizeText(song.title)
-                const singer = normalizeText(song.singer)
-                return title.includes(p) || singer.includes(p)
-            })
-            return response.status(200).json(filtered.slice(0, 20))
+            }).limit(20)
+            return response.status(200).json(song)
         }
         let songs = await Song.find({ published: true })
         response.status(200).json(songs)
@@ -77,6 +73,7 @@ export async function AddSong(request, response){
             return response.status(201).end()
         }else{
             let result = new Song(song)
+            result.singer = song.singer.split(", ")
             await result.save()
             response.status(201).end()
         }
@@ -166,7 +163,7 @@ export async function generateThumbnail(videoPath, outputPath) {
     return outputPath
 }
 
-function normalizeText(text){
+export function normalizeText(text){
     if(Array.isArray(text)){
         text = text.join(" ")
     }
