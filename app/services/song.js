@@ -157,17 +157,21 @@ export async function getVideoDuration(filePath) {
 
 export async function generateThumbnail(videoPath, outputPath) {
 
-    await execFileAsync("ffmpeg", [
-        "-ss",
-        "10",
-        "-i",
-        videoPath,
-        "-vframes",
-        "1",
-        "-q:v",
-        "2",
-        outputPath
-    ])
+    await execFileAsync(
+        ffmpegPath,
+        [
+            "-ss",
+            "10",
+            "-i",
+            videoPath,
+            "-vframes",
+            "1",
+            "-q:v",
+            "2",
+            outputPath
+        ]
+    )
+
     return outputPath
 }
 
