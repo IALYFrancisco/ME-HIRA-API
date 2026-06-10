@@ -47,4 +47,4 @@ songSchema.pre("save", async function () {
     }
 })
 
-export const Song = new model('Song', songSchema
+export const Song = new model('Song', songSchema)
