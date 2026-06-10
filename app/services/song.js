@@ -74,8 +74,14 @@ export async function AddSong(request, response){
             await newSong.save()
             return response.status(201).end()
         }else{
+            let durationSeconds = await getVideoDuration(song.fileUrl)
             let result = new Song(song)
+            let thumbName = `${Date.now()}.jpg`
+            let thumbnailPath = path.join("app","public","thumbnails", thumbName)
+            await generateThumbnail(song.fileUrl, thumbnailPath)
             result.singer = song.singer.split(", ")
+            result.duration = durationSeconds
+            result.thumbnailUrl = `http://127.0.0.1:1234/thumbnails/${thumbName}`
             await result.save()
             response.status(201).end()
         }
