@@ -27,6 +27,12 @@ songSchema.pre("save", async function () {
     if (!this.slugId) {
         this.slugId = nanoid(8)
     }
+    if(!this.normalized_title){
+        this.normalized_title = normalizeText(this.title)
+    }
+    if(!this.normalized_singer){
+        this.normalized_singer = normalizeText(this.singer)
+    }
 
     if (
         this.isModified("title") ||
