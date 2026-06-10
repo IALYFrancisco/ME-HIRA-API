@@ -44,6 +44,7 @@ songSchema.pre("save", async function () {
         )
 
         this.slug = `${baseSlug}-${this.slugId}`
+        this.normalized_title = 
     }
 })
 
