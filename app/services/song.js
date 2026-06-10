@@ -31,11 +31,12 @@ export async function GetSong(request, response){
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
             const { prompt } = request.query
+            const normalized_prompt = normalizeText(prompt)
             const song = await Song.find({
                 published:true,
                 $or: [
-                    { title: new RegExp(prompt, "i") },
-                    { singer: new RegExp(prompt, "i") }
+                    { normalized_title: new RegExp(normalized_prompt, "i") },
+                    { normalized_singer: new RegExp(normalized_prompt, "i") }
                 ]
             }).limit(20)
             return response.status(200).json(song)
