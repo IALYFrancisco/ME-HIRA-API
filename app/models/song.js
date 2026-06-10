@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { nanoid } from "nanoid";
 import slugify from "slugify"
-import { normalizeText } from "../services/song";
+import { normalizeText } from "../services/song.js";
 
 const songSchema = new Schema({
     title: { type: String, required: true },
