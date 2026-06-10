@@ -31,20 +31,14 @@ export async function GetSong(request, response){
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
             const { prompt } = request.query
-            const p = normalizeText(prompt)
-            const rawSongs = await Song.find({
+            const song = await Song.find({
                 published:true,
                 $or: [
                     { title: new RegExp(prompt, "i") },
                     { singer: new RegExp(prompt, "i") }
                 ]
-            }).limit(100)
-            const filtered = rawSongs.filter(song =>{
-                const title = normalizeText(song.title)
-                const singer = normalizeText(song.singer)
-                return title.includes(p) || singer.includes(p)
-            })
-            return response.status(200).json(filtered.slice(0, 20))
+            }).limit(20)
+            return response.status(200).json(song)
         }
         let songs = await Song.find({ published: true })
         response.status(200).json(songs)
