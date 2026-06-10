@@ -81,7 +81,7 @@ export async function AddSong(request, response){
             await generateThumbnail(song.fileUrl, thumbnailPath)
             result.singer = song.singer.split(", ")
             result.duration = durationSeconds
-            result.thumbnailUrl = `http://127.0.0.1:1234/thumbnails/${thumbName}`
+            result.thumbnailUrl = `/thumbnails/${thumbName}`
             await result.save()
             response.status(201).end()
         }
