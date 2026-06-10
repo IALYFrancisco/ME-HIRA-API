@@ -14,7 +14,8 @@ const songSchema = new Schema({
     duration: { type: Number, required:true },
     thumbnailUrl: { type: String, required:true },
     slug: { type: String, unique: true, index: true },
-    slugId: { type: String, unique: true, index: true }
+    slugId: { type: String, unique: true, index: true },
+    normalized_title : { type: String, required: true }
 }, { timestamps: true })
 
 songSchema.set("optimisticConcurrency", true)
