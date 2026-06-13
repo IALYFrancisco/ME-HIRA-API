@@ -9,6 +9,7 @@ import { promisify } from "util";
 import ffmpegPath from "ffmpeg-static";
 import ffprobe from "ffprobe-static";
 import { Octokit } from "octokit"
+import fs from "fs/promises"
 
 export async function GetSong(request, response){
     try{
@@ -192,3 +193,7 @@ export function normalizeText(text){
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
 }
+
+const octokit = new Octokit({
+    auth: process.env.GITHUB_TOKEN
+})
