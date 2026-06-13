@@ -198,9 +198,6 @@ const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
 })
 
-import fs from "fs/promises"
-import { octokit } from "./github.js"
-
 export async function uploadThumbnailToGithub(
     thumbnailPath,
     thumbnailName
@@ -225,7 +222,6 @@ export async function uploadThumbnailToGithub(
 
         sha = data.sha
     } catch (err) {
-        // fichier n'existe pas → normal
     }
 
     // 2. Create / Update file
