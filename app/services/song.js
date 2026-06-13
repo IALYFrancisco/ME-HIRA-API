@@ -6,6 +6,10 @@ import multer from "multer"
 import jwt from "jsonwebtoken"
 import { execFile } from "child_process";
 import { promisify } from "util";
+import ffmpegPath from "ffmpeg-static";
+import ffprobe from "ffprobe-static";
+import { Octokit } from "octokit"
+import fs from "fs/promises"
 
 export async function GetSong(request, response){
     try{
@@ -72,8 +76,25 @@ export async function AddSong(request, response){
             await newSong.save()
             return response.status(201).end()
         }else{
+            let durationSeconds = await getVideoDuration(song.fileUrl)
             let result = new Song(song)
+            let thumbName = `${Date.now()}.jpg`
+            let thumbnailPath = path.join("app","public","thumbnails", thumbName)
+
+            await generateThumbnail(song.fileUrl, thumbnailPath)
+            
+            let thumbnailUrl = `/thumbnails/${thumbName}`
+
+            if(process.env.APP_ENV_STATE === "production"){
+                thumbnailUrl = await uploadThumbnailToGithub(
+                    thumbnailPath,
+                    thumbName
+                )
+            }
+
             result.singer = song.singer.split(", ")
+            result.duration = durationSeconds
+            result.thumbnailUrl = thumbnailUrl
             await result.save()
             response.status(201).end()
         }
@@ -135,31 +156,41 @@ export const upload = multer({ storage })
 const execFileAsync = promisify(execFile)
 
 export async function getVideoDuration(filePath) {
-    const {stdout} = await execFileAsync("ffprobe", [
-        "-v",
-        "quiet",
-        "-print_format",
-        "json",
-        "-show_format",
-        filePath
-    ])
+
+    const { stdout } = await execFileAsync(
+        ffprobe.path,
+        [
+            "-v",
+            "quiet",
+            "-print_format",
+            "json",
+            "-show_format",
+            filePath
+        ]
+    )
+
     const data = JSON.parse(stdout)
-    return Math.round(data.format.duration)
+
+    return Math.round(Number(data.format.duration))
 }
 
 export async function generateThumbnail(videoPath, outputPath) {
 
-    await execFileAsync("ffmpeg", [
-        "-ss",
-        "10",
-        "-i",
-        videoPath,
-        "-vframes",
-        "1",
-        "-q:v",
-        "2",
-        outputPath
-    ])
+    await execFileAsync(
+        ffmpegPath,
+        [
+            "-ss",
+            "10",
+            "-i",
+            videoPath,
+            "-vframes",
+            "1",
+            "-q:v",
+            "2",
+            outputPath
+        ]
+    )
+
     return outputPath
 }
 
@@ -172,4 +203,49 @@ export function normalizeText(text){
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
+}
+
+const octokit = new Octokit({
+    auth: process.env.GITHUB_TOKEN
+})
+
+export async function uploadThumbnailToGithub(
+    thumbnailPath,
+    thumbnailName
+){
+    const fileBuffer = await fs.readFile(thumbnailPath)
+    const content = fileBuffer.toString("base64")
+
+    const pathInRepo = `thumbnails/${thumbnailName}`
+
+    let sha = undefined
+
+    try {
+        const { data } = await octokit.request(
+            "GET /repos/{owner}/{repo}/contents/{path}",
+            {
+                owner: process.env.GITHUB_OWNER,
+                repo: process.env.GITHUB_REPO,
+                path: pathInRepo
+            }
+        )
+
+        sha = data.sha
+    } catch (err) {
+    }
+
+    await octokit.request(
+        "PUT /repos/{owner}/{repo}/contents/{path}",
+        {
+            owner: process.env.GITHUB_OWNER,
+            repo: process.env.GITHUB_REPO,
+            path: pathInRepo,
+            message: `upload thumbnail ${thumbnailName}`,
+            content,
+            branch: process.env.GITHUB_BRANCH || "main",
+            sha
+        }
+    )
+
+    return `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}@${process.env.GITHUB_BRANCH || "main"}/thumbnails/${thumbnailName}`
 }
