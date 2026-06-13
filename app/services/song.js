@@ -197,3 +197,51 @@ export function normalizeText(text){
 const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
 })
+
+import fs from "fs/promises"
+import { octokit } from "./github.js"
+
+export async function uploadThumbnailToGithub(
+    thumbnailPath,
+    thumbnailName
+){
+    const fileBuffer = await fs.readFile(thumbnailPath)
+    const content = fileBuffer.toString("base64")
+
+    const pathInRepo = `thumbnails/${thumbnailName}`
+
+    // 1. Vérifier si le fichier existe déjà (optionnel mais propre)
+    let sha = undefined
+
+    try {
+        const { data } = await octokit.request(
+            "GET /repos/{owner}/{repo}/contents/{path}",
+            {
+                owner: process.env.GITHUB_OWNER,
+                repo: process.env.GITHUB_REPO,
+                path: pathInRepo
+            }
+        )
+
+        sha = data.sha
+    } catch (err) {
+        // fichier n'existe pas → normal
+    }
+
+    // 2. Create / Update file
+    await octokit.request(
+        "PUT /repos/{owner}/{repo}/contents/{path}",
+        {
+            owner: process.env.GITHUB_OWNER,
+            repo: process.env.GITHUB_REPO,
+            path: pathInRepo,
+            message: `upload thumbnail ${thumbnailName}`,
+            content,
+            branch: process.env.GITHUB_BRANCH || "main",
+            sha
+        }
+    )
+
+    // 3. URL jsDelivr
+    return `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}@${process.env.GITHUB_BRANCH || "main"}/thumbnails/${thumbnailName}`
+}
