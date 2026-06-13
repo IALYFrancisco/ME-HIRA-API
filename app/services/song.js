@@ -224,7 +224,6 @@ export async function uploadThumbnailToGithub(
     } catch (err) {
     }
 
-    // 2. Create / Update file
     await octokit.request(
         "PUT /repos/{owner}/{repo}/contents/{path}",
         {
@@ -238,6 +237,5 @@ export async function uploadThumbnailToGithub(
         }
     )
 
-    // 3. URL jsDelivr
     return `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}@${process.env.GITHUB_BRANCH || "main"}/thumbnails/${thumbnailName}`
 }
