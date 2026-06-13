@@ -207,7 +207,6 @@ export async function uploadThumbnailToGithub(
 
     const pathInRepo = `thumbnails/${thumbnailName}`
 
-    // 1. Vérifier si le fichier existe déjà (optionnel mais propre)
     let sha = undefined
 
     try {
