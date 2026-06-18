@@ -13,7 +13,7 @@ const songSchema = new Schema({
     singer: { type: Array, required: true },
     published: { type: Boolean, required: true, default: false },
     duration: { type: Number, required:true },
-    thumbnailUrl: { type: String, required:true, default: `${process.env.ALLOWED_HOST}/images/audioFileThumbnail.jpg` },
+    thumbnailUrl: { type: String, required:true, default: `/thumbnails/audioFileThumbnail.jpg` },
     slug: { type: String, unique: true, index: true },
     slugId: { type: String, unique: true, index: true },
     normalized_title : { type: String },
