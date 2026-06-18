@@ -18,8 +18,6 @@ export async function GetSong(request, response){
         let rt_sid = request.cookies["rt.sid"]
         const decoded = rt_sid ? jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET) : null
 
-        let isAuthenticated = ( authorization && rt_sid && decoded.status==="superuser" ) ? true : false
-
         if(authorization && rt_sid && decoded.status==="superuser"){
             let at_sid = authorization.split(" ")[1]
             jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
@@ -39,7 +37,7 @@ export async function GetSong(request, response){
             const { prompt } = request.query
             const normalized_prompt = normalizeText(prompt)
             const song = await Song.find({
-                published: isAuthenticated ? null : true,
+                published:true,
                 $or: [
                     { normalized_title: new RegExp(normalized_prompt, "i") },
                     { normalized_singer: new RegExp(normalized_prompt, "i") }
