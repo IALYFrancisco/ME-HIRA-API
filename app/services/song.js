@@ -19,6 +19,19 @@ export async function GetSong(request, response){
         const decoded = rt_sid ? jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET) : null
 
         if(authorization && rt_sid && decoded.status==="superuser"){
+
+            if( request.query?.prompt && request.query.prompt.trim() !== "" ){
+                const { prompt } = request.query
+                const normalized_prompt = normalizeText(prompt)
+                const song = await Song.find({
+                    $or: [
+                        { normalized_title: new RegExp(normalized_prompt, "i") },
+                        { normalized_singer: new RegExp(normalized_prompt, "i") }
+                    ]
+                }).limit(20)
+                return response.status(200).json(song)
+            }
+
             let at_sid = authorization.split(" ")[1]
             jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
             if( request.query.slug ){
