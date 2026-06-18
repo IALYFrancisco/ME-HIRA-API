@@ -19,6 +19,19 @@ export async function GetSong(request, response){
         const decoded = rt_sid ? jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET) : null
 
         if(authorization && rt_sid && decoded.status==="superuser"){
+
+            if( request.query?.prompt && request.query.prompt.trim() !== "" ){
+                const { prompt } = request.query
+                const normalized_prompt = normalizeText(prompt)
+                const song = await Song.find({
+                    $or: [
+                        { normalized_title: new RegExp(normalized_prompt, "i") },
+                        { normalized_singer: new RegExp(normalized_prompt, "i") }
+                    ]
+                }).limit(20)
+                return response.status(200).json(song)
+            }
+
             let at_sid = authorization.split(" ")[1]
             jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
             if( request.query.slug ){
@@ -63,38 +76,46 @@ export async function AddSong(request, response){
 
             let filePath = request.file.path
             const durationSeconds = await getVideoDuration(filePath)
-            
-            const thumbName = `${Date.now()}.jpg`
-            const thumbnailPath = path.join("app","public","thumbnails", thumbName)
-            await generateThumbnail(filePath, thumbnailPath)
+            let newSong = new Song(song)
+
+            if(song.type === "video"){
+
+                const thumbName = `${Date.now()}.jpg`
+                const thumbnailPath = path.join("app","public","thumbnails", thumbName)
+                await generateThumbnail(filePath, thumbnailPath)
+                newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+
+            }
             
             const fileName = request.file.filename
-            let newSong = new Song(song)
             newSong.fileUrl = `/songs/${fileName}`
             newSong.duration = durationSeconds
-            newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+            
             await newSong.save()
             return response.status(201).end()
         }else{
             let durationSeconds = await getVideoDuration(song.fileUrl)
             let result = new Song(song)
-            let thumbName = `${Date.now()}.jpg`
-            let thumbnailPath = path.join("app","public","thumbnails", thumbName)
 
-            await generateThumbnail(song.fileUrl, thumbnailPath)
-            
-            let thumbnailUrl = `/thumbnails/${thumbName}`
+            if(song.fileType === "video"){
 
-            if(process.env.APP_ENV_STATE === "production"){
-                thumbnailUrl = await uploadThumbnailToGithub(
-                    thumbnailPath,
-                    thumbName
-                )
+                let thumbName = `${Date.now()}.jpg`
+                let thumbnailPath = path.join("app","public","thumbnails", thumbName)
+                await generateThumbnail(song.fileUrl, thumbnailPath)
+                let thumbnailUrl = `/thumbnails/${thumbName}`
+                if(process.env.APP_ENV_STATE === "production"){
+                    thumbnailUrl = await uploadThumbnailToGithub(
+                        thumbnailPath,
+                        thumbName
+                    )
+                }
+                result.thumbnailUrl = thumbnailUrl
+                
             }
 
             result.singer = song.singer.split(", ")
             result.duration = durationSeconds
-            result.thumbnailUrl = thumbnailUrl
+
             await result.save()
             response.status(201).end()
         }
