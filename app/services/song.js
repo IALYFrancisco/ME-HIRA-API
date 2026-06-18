@@ -76,16 +76,21 @@ export async function AddSong(request, response){
 
             let filePath = request.file.path
             const durationSeconds = await getVideoDuration(filePath)
-            
-            const thumbName = `${Date.now()}.jpg`
-            const thumbnailPath = path.join("app","public","thumbnails", thumbName)
-            await generateThumbnail(filePath, thumbnailPath)
+            let newSong = new Song(song)
+
+            if(song.type === "video"){
+
+                const thumbName = `${Date.now()}.jpg`
+                const thumbnailPath = path.join("app","public","thumbnails", thumbName)
+                await generateThumbnail(filePath, thumbnailPath)
+                newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+
+            }
             
             const fileName = request.file.filename
-            let newSong = new Song(song)
             newSong.fileUrl = `/songs/${fileName}`
             newSong.duration = durationSeconds
-            newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+            
             await newSong.save()
             return response.status(201).end()
         }else{
