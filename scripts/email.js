@@ -20,28 +20,31 @@ async function CreateSuperuserAndSendEmail(){
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    .lato-regular {
+                        font-family: "Lato", sans-serif;
+                        font-weight: 400;
+                        font-style: normal;
+                    }
                 </style>
-                <title>Création de superutilisateur</title>
+                <title>Me-Hira - Création de superutilisateur</title>
             </head>
-            <body style="font-family: Lato;">
-                <section style="max-width: 300px; margin: 100px auto; display: flex; justify-content: center; flex-direction: column; text-align: center; row-gap: 25px; color: #191919;">
+            <body>
+                <section style="max-width: 300px; margin: 70px auto; text-align: center; color: #191919;">
                     <a href="https://mehira.onrender.com" target="_blank" style="width: max-content; margin: auto;">
-                        <img src="logo-de-me-hira.png" alt="logo du plateforme me-hira" style="width: 65px;">
+                        <img src="https://mehira.onrender.com/images/logo-de-me-hira.png" alt="logo du plateforme me-hira" style="width: 65px;">
                     </a>
-                    <p>Les informations concernant le superutilisateur créé pour <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> sont les suivantes :</p>
-                    <div class="superuser-info">
-                        <h3>Nom :</h3><p>${process.env.SUPERUSER_NAME}</p>
+                    <p class="lato-regular" style="margin: 30px auto;">Les informations concernant le superutilisateur créé pour <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> sont les suivantes :</p>
+                    <div class="superuser-info" style="margin-top: 30px;">
+                        <h3 class="lato-regular" style="margin-bottom: 5px;">Nom :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_NAME}</p>
                     </div>
-                    <div class="superuser-info">
-                        <h3>Email :</h3><p>${process.env.SUPERUSER_EMAIL}</p>
+                    <div class="superuser-info" style="margin-top: 30px;">
+                        <h3 class="lato-regular" style="margin-bottom: 5px;">Email :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_EMAIL}</p>
                     </div>
-                    <div class="superuser-info">
-                        <h3>Mot de passe :</h3><p>${superuserPassword}</p>
+                    <div class="superuser-info" style="margin-top: 30px;">
+                        <h3 class="lato-regular" style="margin-bottom: 5px;">Mot de passe :</h3><p class="lato-regular" style="margin: 0;">${superuserPassword}</p>
                     </div>
-                    <a target="_blank" href="https://mehira.onrender.com/authentication/login" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: auto;">
-                        <button style="padding: 10px 15px;background-color: #FEC700;border: none;border-radius: 10px;cursor: pointer; color: #191919;">Aller à la page de connexion</button>
+                    <a target="_blank" href="https://mehira.onrender.com/authentication/login" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: 40px auto;">
+                        <button class="lato-regular" style="padding: 10px 15px;background-color: #FEC700;border: none;border-radius: 10px;cursor: pointer; color: #191919;">Aller à la page de connexion</button>
                     </a>
                 </section>
             </body>
