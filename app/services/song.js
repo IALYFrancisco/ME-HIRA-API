@@ -195,7 +195,10 @@ const fileFilter = (request, file, callback) => {
 
 }
 
-export const upload = multer({ storage })
+export const upload = multer({ 
+    storage,
+    fileFilter
+})
 
 const execFileAsync = promisify(execFile)
 
