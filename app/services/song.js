@@ -22,8 +22,11 @@ export async function GetSong(request, response){
         if(authorization && rt_sid && decoded.status==="superuser"){
 
             if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-                const { prompt } = request.query
+                const { prompt, fileType } = request.query
                 const normalized_prompt = normalizeText(prompt)
+
+                
+
                 const song = await Song.find({
                     $or: [
                         { normalized_title: new RegExp(normalized_prompt, "i") },
