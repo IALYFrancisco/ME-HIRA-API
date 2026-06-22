@@ -197,7 +197,10 @@ const fileFilter = (request, file, callback) => {
 
 export const upload = multer({ 
     storage,
-    fileFilter
+    fileFilter,
+    limits: {
+        fileSize: 500 * 1024 * 1024
+    }
 })
 
 const execFileAsync = promisify(execFile)
