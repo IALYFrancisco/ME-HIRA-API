@@ -10,6 +10,7 @@ import ffmpegPath from "ffmpeg-static";
 import ffprobe from "ffprobe-static";
 import { Octokit } from "octokit"
 import fs from "fs/promises"
+import axios from "axios";
 
 export async function GetSong(request, response){
     try{
@@ -94,6 +95,19 @@ export async function AddSong(request, response){
             await newSong.save()
             return response.status(201).end()
         }else{
+
+            const head = await axios.head(song.fileUrl)
+            const mimetype = head.headers["content-type"]
+
+            if(
+                !mimetype.startsWith("audio/*") &&
+                !mimetype.startsWith("video/*")
+            ){
+                return response.status(400).json({
+                    message: "Le lien ne pointe pas vers un média audio ou vidéo."
+                })
+            }
+
             let durationSeconds = await getVideoDuration(song.fileUrl)
             let result = new Song(song)
 
