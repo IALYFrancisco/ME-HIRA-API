@@ -25,7 +25,12 @@ export async function GetSong(request, response){
                 const { prompt, fileType } = request.query
                 const normalized_prompt = normalizeText(prompt)
 
-                
+                const filter = {
+                    $or: [
+                        { normalized_title: new RegExp(normalized_prompt, "i") },
+                        { normalized_singer: new RegExp(normalized_prompt, "i") }
+                    ]
+                }
 
                 const song = await Song.find({
                     $or: [
