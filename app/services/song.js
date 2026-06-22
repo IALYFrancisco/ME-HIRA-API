@@ -58,6 +58,10 @@ export async function GetSong(request, response){
                 ]
             }
 
+            if(fileType){
+                filter.fileType = fileType
+            }
+
             const normalized_prompt = normalizeText(prompt)
             const song = await Song.find({
                 published:true,
