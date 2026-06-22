@@ -90,4 +90,4 @@ async function CreateSuperuserAndSendEmail(){
     }
 }
 
-CreateSuperuserAndSendEma
+CreateSuperuserAndSendEmail()
