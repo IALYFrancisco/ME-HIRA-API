@@ -28,6 +28,9 @@ async function CreateSuperuserAndSendEmail(){
                         font-weight: 400;
                         font-style: normal;
                     }
+                    .lato-title {
+                        font-family: "Lato", sans-serif;
+                    }
                 </style>
                 <title>Me-Hira - Création de superutilisateur</title>
             </head>
@@ -38,13 +41,13 @@ async function CreateSuperuserAndSendEmail(){
                     </a>
                     <p class="lato-regular" style="margin: 30px auto;">Les informations concernant le superutilisateur créé pour <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> sont les suivantes :</p>
                     <div class="superuser-info" style="margin-top: 30px;">
-                        <h3 class="lato-regular" style="margin-bottom: 5px;">Nom :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_NAME}</p>
+                        <h3 class="lato-title" style="margin-bottom: 5px;">Nom :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_NAME}</p>
                     </div>
                     <div class="superuser-info" style="margin-top: 30px;">
-                        <h3 class="lato-regular" style="margin-bottom: 5px;">Email :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_EMAIL}</p>
+                        <h3 class="lato-title" style="margin-bottom: 5px;">Email :</h3><p class="lato-regular" style="margin: 0;">${process.env.SUPERUSER_EMAIL}</p>
                     </div>
                     <div class="superuser-info" style="margin-top: 30px;">
-                        <h3 class="lato-regular" style="margin-bottom: 5px;">Mot de passe :</h3><p class="lato-regular" style="margin: 0;">${superuserPassword}</p>
+                        <h3 class="lato-title" style="margin-bottom: 5px;">Mot de passe :</h3><p class="lato-regular" style="margin: 0;">${superuserPassword}</p>
                     </div>
                     <a target="_blank" href="https://mehira.onrender.com/authentication/login" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: 40px auto;">
                         <button class="lato-regular" style="padding: 10px 15px;background-color: #FEC700;border: none;border-radius: 10px;cursor: pointer; color: #191919;">Aller à la page de connexion</button>
@@ -87,4 +90,4 @@ async function CreateSuperuserAndSendEmail(){
     }
 }
 
-CreateSuperuserAndSendEmail()
+CreateSuperuserAndSendEma
