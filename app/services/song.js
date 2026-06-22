@@ -187,6 +187,12 @@ const fileFilter = (request, file, callback) => {
         "video/quicktime",
     ]
 
+    if(allowedMimeTypes.includes(file.mimetype)){
+        callback(null, true)
+    }else{
+        callback(new Error("Type de fichier non autorisé."), false)
+    }
+
 }
 
 export const upload = multer({ storage })
