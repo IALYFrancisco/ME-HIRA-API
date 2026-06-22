@@ -174,6 +174,19 @@ const storage = multer.diskStorage({
 
 const fileFilter = (request, file, callback) => {
 
+    const allowedMimeTypes = [
+        "audio/mpeg",
+        "audio/mp3",
+        "audio/wav",
+        "audio/ogg",
+        "audio/x-wav",
+        "video/mp4",
+        "video/webm",
+        "video/ogg",
+        "video/x-msvideo",
+        "video/quicktime",
+    ]
+
 }
 
 export const upload = multer({ storage })
