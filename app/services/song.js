@@ -44,7 +44,7 @@ export async function GetSong(request, response){
             jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
             if( request.query.slug ){
                 let song = await Song.findOne({ slug: request.query.slug})
-                response.status(200).json(song)
+                return response.status(200).json(song)
             }
             let songs = await Song.find()
             response.status(200).json(songs)
