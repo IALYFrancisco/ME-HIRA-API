@@ -48,7 +48,7 @@ export async function GetSong(request, response){
             return response.status(200).json(song)
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-            const { prompt } = request.query
+            const { prompt, fileType } = request.query
             const normalized_prompt = normalizeText(prompt)
             const song = await Song.find({
                 published:true,
