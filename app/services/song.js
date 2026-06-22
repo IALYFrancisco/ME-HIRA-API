@@ -22,14 +22,21 @@ export async function GetSong(request, response){
         if(authorization && rt_sid && decoded.status==="superuser"){
 
             if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-                const { prompt } = request.query
+                const { prompt, fileType } = request.query
                 const normalized_prompt = normalizeText(prompt)
-                const song = await Song.find({
+
+                const filter = {
                     $or: [
                         { normalized_title: new RegExp(normalized_prompt, "i") },
                         { normalized_singer: new RegExp(normalized_prompt, "i") }
                     ]
-                }).limit(20)
+                }
+
+                if(fileType){
+                    filter.fileType = fileType
+                }
+
+                const song = await Song.find(filter).limit(20)
                 return response.status(200).json(song)
             }
 
@@ -37,7 +44,7 @@ export async function GetSong(request, response){
             jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
             if( request.query.slug ){
                 let song = await Song.findOne({ slug: request.query.slug})
-                response.status(200).json(song)
+                return response.status(200).json(song)
             }
             let songs = await Song.find()
             response.status(200).json(songs)
@@ -48,15 +55,22 @@ export async function GetSong(request, response){
             return response.status(200).json(song)
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-            const { prompt } = request.query
-            const normalized_prompt = normalizeText(prompt)
-            const song = await Song.find({
-                published:true,
+            const { prompt, fileType } = request.query
+
+            const filter = {
+                published: true,
                 $or: [
                     { normalized_title: new RegExp(normalized_prompt, "i") },
                     { normalized_singer: new RegExp(normalized_prompt, "i") }
                 ]
-            }).limit(20)
+            }
+
+            if(fileType){
+                filter.fileType = fileType
+            }
+
+            const normalized_prompt = normalizeText(prompt)
+            const song = await Song.find(filter).limit(20)
             return response.status(200).json(song)
         }
         let songs = await Song.find({ published: true })
