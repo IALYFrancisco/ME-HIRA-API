@@ -32,12 +32,11 @@ export async function GetSong(request, response){
                     ]
                 }
 
-                const song = await Song.find({
-                    $or: [
-                        { normalized_title: new RegExp(normalized_prompt, "i") },
-                        { normalized_singer: new RegExp(normalized_prompt, "i") }
-                    ]
-                }).limit(20)
+                if(fileType){
+                    filter.fileType = fileType
+                }
+
+                const song = await Song.find(filter).limit(20)
                 return response.status(200).json(song)
             }
 
