@@ -1,6 +1,6 @@
 import path from "path";
 import { Song } from "../models/song.js";
-import e from "express";
+import e, { response } from "express";
 import { fileURLToPath } from "url";
 import multer from "multer"
 import jwt from "jsonwebtoken"
@@ -171,6 +171,10 @@ const storage = multer.diskStorage({
         callback(null, originalName)
     }
 })
+
+const fileFilter = (request, file, callback) => {
+
+}
 
 export const upload = multer({ storage })
 
