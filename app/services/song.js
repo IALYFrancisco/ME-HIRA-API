@@ -56,8 +56,6 @@ export async function GetSong(request, response){
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
 
-            console.log("ato io")
-
             const { prompt, fileType } = request.query
 
             const normalized_prompt = normalizeText(prompt)
@@ -84,8 +82,6 @@ export async function GetSong(request, response){
         if(error.name === 'TokenExpiredError'){
             return response.status(209).end()
         }
-        console.log("erreur be")
-        console.log(error)
         response.status(500).end()
     }
 }
