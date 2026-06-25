@@ -13,7 +13,7 @@ const songSchema = new Schema({
     singer: { type: Array, required: true },
     published: { type: Boolean, required: true, default: false },
     duration: { type: Number, required:true },
-    thumbnailUrl: { type: String, required:true, default: `/thumbnails/audioFileThumbnail.jpg` },
+    thumbnailUrl: { type: String, required:true },
     slug: { type: String, unique: true, index: true },
     slugId: { type: String, unique: true, index: true },
     normalized_title : { type: String },
@@ -24,6 +24,9 @@ songSchema.set("optimisticConcurrency", true)
 
 songSchema.pre("save", async function () {
 
+    if(!this.thumbnailUrl){
+        this.thumbnailUrl = "/thumbnails/audioFileThumbnail.jpg"
+    }
     if (!this.slugId) {
         this.slugId = nanoid(8)
     }
