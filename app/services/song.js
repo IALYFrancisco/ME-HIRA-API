@@ -150,8 +150,7 @@ export async function AddSong(request, response){
             response.status(201).end()
         }
     }
-    catch(error){
-        console.log(error)
+    catch{
         response.status(500).end()
     }
 }
