@@ -95,7 +95,7 @@ export async function AddSong(request, response){
             const durationSeconds = await getVideoDuration(filePath)
             let newSong = new Song(song)
 
-            if(song.type === "video"){
+            if(song.fileType === "video"){
 
                 const thumbName = `${Date.now()}.jpg`
                 const thumbnailPath = path.join("app","public","thumbnails", thumbName)
@@ -150,7 +150,8 @@ export async function AddSong(request, response){
             response.status(201).end()
         }
     }
-    catch{
+    catch(error){
+        console.log(error)
         response.status(500).end()
     }
 }
