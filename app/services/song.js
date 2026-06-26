@@ -55,7 +55,10 @@ export async function GetSong(request, response){
             return response.status(200).json(song)
         }
         if( request.query?.prompt && request.query.prompt.trim() !== "" ){
+
             const { prompt, fileType } = request.query
+
+            const normalized_prompt = normalizeText(prompt)
 
             const filter = {
                 published: true,
@@ -69,7 +72,6 @@ export async function GetSong(request, response){
                 filter.fileType = fileType
             }
 
-            const normalized_prompt = normalizeText(prompt)
             const song = await Song.find(filter).limit(20)
             return response.status(200).json(song)
         }
@@ -93,7 +95,7 @@ export async function AddSong(request, response){
             const durationSeconds = await getVideoDuration(filePath)
             let newSong = new Song(song)
 
-            if(song.type === "video"){
+            if(song.fileType === "video"){
 
                 const thumbName = `${Date.now()}.jpg`
                 const thumbnailPath = path.join("app","public","thumbnails", thumbName)
