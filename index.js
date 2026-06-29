@@ -10,6 +10,7 @@ config()
 const app = e()
 dbConnection()
 
+app.set("trust proxy", 1)
 app.use(cookieParser())
 app.use(staticFilesServConfigurations)
 app.use(corsConfigurations)
