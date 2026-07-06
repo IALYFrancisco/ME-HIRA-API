@@ -47,13 +47,13 @@ export async function RefreshToken(request, response){
 
 export async function Logout(request, response){
     try{
-        response.cookie("rt.sid", rt_sid, {
+        response.clearCookie("rt.sid", {
             httpOnly: true,
             secure: process.env.APP_ENV_STATE === "production",
             sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
-            path: "/", // 🔥 OBLIGATOIRE
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            path: "/"
         })
+
         response.status(200).end()
     }
     catch{
