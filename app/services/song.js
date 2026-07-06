@@ -119,6 +119,7 @@ export async function AddSong(request, response){
                 !mimetype.startsWith("audio/") &&
                 !mimetype.startsWith("video/")
             ){
+                console.log(mimetype)
                 return response.status(400).json({
                     message: "Le lien ne pointe pas vers un média audio ou vidéo."
                 })
