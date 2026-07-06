@@ -86,76 +86,145 @@ export async function GetSong(request, response){
     }
 }
 
-export async function AddSong(request, response){
-    try{
-        const song = request.body
-        if(request.file){
+export async function AddSong(request, response) {
+  try {
+    const song = request.body
 
-            let filePath = request.file.path
-            const durationSeconds = await getVideoDuration(filePath)
-            let newSong = new Song(song)
+    const allowedExt = [".mp4", ".mp3", ".webm", ".wav"]
 
-            if(song.fileType === "video"){
+    // =========================
+    // CASE 1 : FILE UPLOAD LOCAL
+    // =========================
+    if (request.file) {
+      const filePath = request.file.path
+      const fileName = request.file.filename
 
-                const thumbName = `${Date.now()}.jpg`
-                const thumbnailPath = path.join("app","public","thumbnails", thumbName)
-                await generateThumbnail(filePath, thumbnailPath)
-                newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+      const ext = path.extname(fileName).toLowerCase()
 
-            }
-            
-            const fileName = request.file.filename
-            newSong.fileUrl = `/songs/${fileName}`
-            newSong.duration = durationSeconds
-            
-            await newSong.save()
-            return response.status(201).end()
-        }else{
+      if (!allowedExt.includes(ext)) {
+        return response.status(400).json({
+          message: "Extension de fichier non supportée."
+        })
+      }
 
-            const head = await axios.head(song.fileUrl)
-            const mimetype = head.headers["content-type"]
-            
-            if(
-                !mimetype.startsWith("audio/") &&
-                !mimetype.startsWith("video/")
-            ){
-                console.log(mimetype)
-                return response.status(400).json({
-                    message: "Le lien ne pointe pas vers un média audio ou vidéo."
-                })
-            }
+      const durationSeconds = await getVideoDuration(filePath)
 
-            let durationSeconds = await getVideoDuration(song.fileUrl)
-            let result = new Song(song)
+      const newSong = new Song(song)
 
-            if(song.fileType === "video"){
+      if (song.fileType === "video") {
+        const thumbName = `${Date.now()}.jpg`
+        const thumbnailPath = path.join(
+          "app",
+          "public",
+          "thumbnails",
+          thumbName
+        )
 
-                let thumbName = `${Date.now()}.jpg`
-                let thumbnailPath = path.join("app","public","thumbnails", thumbName)
-                await generateThumbnail(song.fileUrl, thumbnailPath)
-                let thumbnailUrl = `/thumbnails/${thumbName}`
-                if(process.env.APP_ENV_STATE === "production"){
-                    thumbnailUrl = await uploadThumbnailToGithub(
-                        thumbnailPath,
-                        thumbName
-                    )
-                }
-                result.thumbnailUrl = thumbnailUrl
-                
-            }
+        await generateThumbnail(filePath, thumbnailPath)
 
-            result.singer = song.singer.split(", ")
-            result.duration = durationSeconds
+        newSong.thumbnailUrl = `/thumbnails/${thumbName}`
+      }
 
-            await result.save()
-            response.status(201).end()
-        }
+      newSong.fileUrl = `/songs/${fileName}`
+      newSong.duration = durationSeconds
+
+      await newSong.save()
+      return response.status(201).end()
     }
-    catch{
-        response.status(500).end()
+
+    // =========================
+    // CASE 2 : EXTERNAL URL (GitHub LFS, etc.)
+    // =========================
+
+    const url = new URL(song.fileUrl)
+    const ext = path.extname(url.pathname).toLowerCase()
+
+    // 1. PRIMARY CHECK : extension (fiable et stable)
+    if (!allowedExt.includes(ext)) {
+      return response.status(400).json({
+        message: "Extension du lien non supportée."
+      })
     }
+
+    // 2. BEST EFFORT CHECK : MIME (non bloquant)
+    let mimetype = ""
+
+    try {
+      const head = await axios.head(song.fileUrl)
+      mimetype = head.headers["content-type"] || ""
+    } catch (err) {
+      console.warn("HEAD request failed, fallback extension only")
+    }
+
+    if (
+      mimetype &&
+      !mimetype.includes("audio") &&
+      !mimetype.includes("video") &&
+      mimetype !== "application/octet-stream"
+    ) {
+      console.warn("MIME suspect mais accepté (GitHub LFS compatible)")
+    }
+
+    // =========================
+    // DURATION (robuste fallback)
+    // =========================
+
+    let durationSeconds = 0
+
+    try {
+      durationSeconds = await getVideoDuration(song.fileUrl)
+    } catch (err) {
+      console.warn("Duration fallback needed, retry local/stream method")
+    }
+
+    const result = new Song(song)
+
+    // =========================
+    // THUMBNAIL
+    // =========================
+
+    if (song.fileType === "video") {
+      const thumbName = `${Date.now()}.jpg`
+
+      const thumbnailPath = path.join(
+        "app",
+        "public",
+        "thumbnails",
+        thumbName
+      )
+
+      await generateThumbnail(song.fileUrl, thumbnailPath)
+
+      let thumbnailUrl = `/thumbnails/${thumbName}`
+
+      if (process.env.APP_ENV_STATE === "production") {
+        thumbnailUrl = await uploadThumbnailToGithub(
+          thumbnailPath,
+          thumbName
+        )
+      }
+
+      result.thumbnailUrl = thumbnailUrl
+    }
+
+    // =========================
+    // FINALIZE
+    // =========================
+
+    result.singer = song.singer
+      ? song.singer.split(",").map(s => s.trim())
+      : []
+
+    result.duration = durationSeconds
+
+    await result.save()
+
+    return response.status(201).end()
+  } catch (err) {
+    console.error(err)
+    return response.status(500).end()
+  }
 }
-
 export async function UpdateSong(request, response) {
     try{
         const { song, update } = request.body
