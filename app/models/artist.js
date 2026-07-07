@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const artistSchema = new Schema({
     name: { type: String, required: true }, /** this is the full real name of the subject */
@@ -11,3 +11,5 @@ const artistSchema = new Schema({
 })
 
 artistSchema.set("optimisticConcurrency", true)
+
+export const Artist = new model('Artist', artistSchema)
