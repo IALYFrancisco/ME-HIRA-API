@@ -75,7 +75,7 @@ export async function GetSong(request, response){
             const song = await Song.find(filter).limit(20)
             return response.status(200).json(song)
         }
-        let songs = await Song.find({ published: true })
+        let songs = await Song.find({ published: true }, { __v: 0 })
         response.status(200).json(songs)
     }
     catch(error){
