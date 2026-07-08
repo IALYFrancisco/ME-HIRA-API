@@ -4,3 +4,5 @@ import { isAuthenticated } from "../services/authentication.js";
 import { isAdminOrSuperuser } from "../services/user.js";
 
 export const artistRouter = Router()
+
+artistRouter.get('/get', isAuthenticated, isAdminOrSuperuser, GetArtist)
