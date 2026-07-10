@@ -9,3 +9,7 @@ export async function GetArtist(request, response){
         response.status(500).end()
     }
 }
+
+export async function CreateArtistDocument(request, response) {
+    
+}
