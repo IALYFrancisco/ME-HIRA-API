@@ -15,6 +15,7 @@ export async function CreateArtistDocument(request, response) {
     try{
         const { artist, contact } = request.body
         let newArtistDocument = new Artist(artist)
+        newArtistDocument.roles = artist.roles.split(", ")
         newArtistDocument = await newArtistDocument.save()
         let newArtistContact = new ContactArtist(contact)
         newArtistContact.artistId = newArtistDocument._id
