@@ -11,5 +11,8 @@ export async function GetArtist(request, response){
 }
 
 export async function CreateArtistDocument(request, response) {
-    
+    try{}
+    catch{
+        response.status(500).end()
+    }
 }
