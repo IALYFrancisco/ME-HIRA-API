@@ -3,16 +3,26 @@ import { ContactArtist } from "../models/artistContact.js";
 
 export async function GetArtist(request, response){
     try{
-        // let artists = await Artist.find({}, { __v: 0 })
+
         let artists = await Artist.aggregate([
-            {
-                $lookup: {
+            { 
+                $lookup: { 
                     from: "contactartists",
-                    localField: "artistId",
-                    foreignField
+                    foreignField: "artistId",
+                    localField: "_id",
+                    as: "contacts"
+                }
+            },
+            { $unwind: "$contacts" },
+            {
+                $project: {
+                    __v: 0,
+                    "contacts.__v": 0,
+                    "contacts.artistId": 0
                 }
             }
         ])
+
         response.status(200).json(artists)
     }
     catch{
