@@ -1,4 +1,5 @@
 import { Artist } from "../models/artist.js";
+import { ContactArtist } from "../models/artistContact.js";
 
 export async function GetArtist(request, response){
     try{
@@ -11,7 +12,11 @@ export async function GetArtist(request, response){
 }
 
 export async function CreateArtistDocument(request, response) {
-    try{}
+    try{
+        const { artist, contact } = request.body
+        let newArtistDocument = new Artist(artist)
+        let newArtistContact = new ContactArtist(contact)
+    }
     catch{
         response.status(500).end()
     }
