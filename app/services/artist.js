@@ -3,7 +3,7 @@ import { ContactArtist } from "../models/artistContact.js";
 
 export async function GetArtist(request, response){
     try{
-        let artists = await Artist.find()
+        let artists = await Artist.find({}, { __v: 0 })
         response.status(200).json(artists)
     }
     catch{
