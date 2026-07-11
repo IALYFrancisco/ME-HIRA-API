@@ -6,7 +6,7 @@ const artistSchema = new Schema({
     roles: { type: Array, required: true },
     about: { type: String },
     address: { type: String },
-    image: { type: String, required: true }, /** this attribut contains the url to the image of sabject, it can be an image of only subject or an image of group whit precisions */
+    image: { type: String }, /** this attribut contains the url to the image of sabject, it can be an image of only subject or an image of group whit precisions */
     birthDayAndPlace : { type: String, required: true }
 })
 
