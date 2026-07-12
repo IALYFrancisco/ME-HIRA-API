@@ -241,12 +241,12 @@ export async function SongPublication(request, response) {
   }
 }
 
-export async function DeleteSong(req, res) {
+export async function DeleteSong(request, response) {
   try {
-    await Song.findByIdAndDelete(req.body.song);
-    res.status(200).end();
+    await Song.findByIdAndDelete(request.body.song);
+    response.status(200).end();
   } catch {
-    res.status(500).end();
+    response.status(500).end();
   }
 }
 
