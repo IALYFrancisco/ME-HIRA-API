@@ -88,3 +88,7 @@ export async function CreateArtistDocument(request, response) {
         response.status(500).end()
     }
 }
+
+export async function DeleteArtistDocument( request, response ){
+
+}
