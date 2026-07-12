@@ -13,9 +13,6 @@ import fs from "fs/promises";
 import axios from "axios";
 import os from "os";
 
-// =========================
-// TEMP DOWNLOAD (PRODUCTION ONLY USAGE)
-// =========================
 async function downloadToTempFile(url) {
   const ext = path.extname(new URL(url).pathname) || ".mp4";
   const filePath = path.join(os.tmpdir(), `${Date.now()}${ext}`);
