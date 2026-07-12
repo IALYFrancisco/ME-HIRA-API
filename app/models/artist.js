@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { normalizeText } from "../services/song";
+import { normalizeText } from "../services/song.js";
 
 const artistSchema = new Schema({
     name: { type: String }, /** this is the full real name of the subject */
