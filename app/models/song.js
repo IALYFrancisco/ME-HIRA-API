@@ -16,8 +16,8 @@ const songSchema = new Schema({
     thumbnailUrl: { type: String, required:true, default: `/thumbnails/me-hira-audio-file-thumbnail.png` },
     slug: { type: String, unique: true, index: true },
     slugId: { type: String, unique: true, index: true },
-    normalized_title : { type: String },
-    normalized_singer : { type: String }
+    normalized_title : { type: String, required: true },
+    normalized_singer : { type: String, required: true }
 }, { timestamps: true })
 
 songSchema.set("optimisticConcurrency", true)

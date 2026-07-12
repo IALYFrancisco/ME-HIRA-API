@@ -13,82 +13,6 @@ import fs from "fs/promises";
 import axios from "axios";
 import os from "os";
 
-export async function GetSong(request, response){
-    try{
-
-        let authorization = request.headers.authorization
-        let rt_sid = request.cookies["rt.sid"]
-        const decoded = rt_sid ? jwt.verify(rt_sid, process.env.REFRESH_TOKEN_SECRET) : null
-
-        if(authorization && rt_sid && decoded.status==="superuser"){
-
-            if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-                const { prompt, fileType } = request.query
-                const normalized_prompt = normalizeText(prompt)
-
-                const filter = {
-                    $or: [
-                        { normalized_title: new RegExp(normalized_prompt, "i") },
-                        { normalized_singer: new RegExp(normalized_prompt, "i") }
-                    ]
-                }
-
-                if(fileType){
-                    filter.fileType = fileType
-                }
-
-                const song = await Song.find(filter).limit(20)
-                return response.status(200).json(song)
-            }
-
-            let at_sid = authorization.split(" ")[1]
-            jwt.verify(at_sid, process.env.ACCESS_TOKEN_SECRET)
-            if( request.query.slug ){
-                let song = await Song.findOne({ slug: request.query.slug})
-                return response.status(200).json(song)
-            }
-            let songs = await Song.find()
-            response.status(200).json(songs)
-        }
-
-        if( request.query.slug ){
-            let song = await Song.findOne({ slug: request.query.slug, published: true })
-            return response.status(200).json(song)
-        }
-        if( request.query?.prompt && request.query.prompt.trim() !== "" ){
-
-            const { prompt, fileType } = request.query
-
-            const normalized_prompt = normalizeText(prompt)
-
-            const filter = {
-                published: true,
-                $or: [
-                    { normalized_title: new RegExp(normalized_prompt, "i") },
-                    { normalized_singer: new RegExp(normalized_prompt, "i") }
-                ]
-            }
-
-            if(fileType){
-                filter.fileType = fileType
-            }
-
-            const song = await Song.find(filter).limit(20)
-            return response.status(200).json(song)
-        }
-        let songs = await Song.find({ published: true }, { __v: 0 })
-        response.status(200).json(songs)
-    }
-    catch(error){
-        if(error.name === 'TokenExpiredError'){
-            return response.status(209).end()
-        }
-        response.status(500).end()
-    }
-
-  // =========================
-// TEMP DOWNLOAD (PRODUCTION ONLY USAGE)
-// =========================
 async function downloadToTempFile(url) {
   const ext = path.extname(new URL(url).pathname) || ".mp4";
   const filePath = path.join(os.tmpdir(), `${Date.now()}${ext}`);
@@ -118,9 +42,6 @@ async function safeDelete(filePath) {
   } catch {}
 }
 
-// =========================
-// GET SONG
-// =========================
 export async function GetSong(request, response) {
   try {
     let authorization = request.headers.authorization;
@@ -290,8 +211,7 @@ export async function AddSong(request, response) {
     await newSong.save();
 
     return response.status(201).end();
-  } catch (err) {
-    console.error(err);
+  } catch {
     return response.status(500).end();
   } finally {
     // =========================
@@ -303,39 +223,33 @@ export async function AddSong(request, response) {
   }
 }
 
-// =========================
-// UPDATE / DELETE
-// =========================
-export async function UpdateSong(req, res) {
+export async function UpdateSong(request, response) {
   try {
-    await Song.findByIdAndUpdate(req.body.song, req.body.update);
-    res.status(200).end();
+    await Song.findByIdAndUpdate(request.body.song, request.body.update);
+    response.status(200).end();
   } catch {
-    res.status(500).end();
+    response.status(500).end();
   }
 }
 
-export async function SongPublication(req, res) {
+export async function SongPublication(request, response) {
   try {
-    await Song.findByIdAndUpdate(req.body.song, req.body.update);
-    res.status(200).end();
+    await Song.findByIdAndUpdate(request.body.song, request.body.update);
+    response.status(200).end();
   } catch {
-    res.status(500).end();
+    response.status(500).end();
   }
 }
 
-export async function DeleteSong(req, res) {
+export async function DeleteSong(request, response) {
   try {
-    await Song.findByIdAndDelete(req.body.song);
-    res.status(200).end();
+    await Song.findByIdAndDelete(request.body.song);
+    response.status(200).end();
   } catch {
-    res.status(500).end();
+    response.status(500).end();
   }
 }
 
-// =========================
-// MULTER CONFIG
-// =========================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -372,9 +286,6 @@ export const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 },
 });
 
-// =========================
-// FFPROBE / FFMPEG
-// =========================
 const execFileAsync = promisify(execFile);
 
 export async function getVideoDuration(filePath) {
@@ -393,7 +304,7 @@ export async function getVideoDuration(filePath) {
 
 export async function generateThumbnail(videoPath, outputPath) {
   await execFileAsync(ffmpegPath, [
-    "-i",              // 🔥 FIX IMPORTANT (no -ss before input)
+    "-i",
     videoPath,
     "-ss",
     "10",
@@ -407,9 +318,6 @@ export async function generateThumbnail(videoPath, outputPath) {
   return outputPath;
 }
 
-// =========================
-// HELPERS
-// =========================
 export function normalizeText(text) {
   if (Array.isArray(text)) text = text.join(" ");
 
@@ -419,9 +327,6 @@ export function normalizeText(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
-// =========================
-// GITHUB THUMB UPLOAD
-// =========================
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
