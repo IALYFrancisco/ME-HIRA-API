@@ -14,4 +14,8 @@ const artistSchema = new Schema({
 
 artistSchema.set("optimisticConcurrency", true)
 
+artistSchema.pre("save", async function () {
+    
+})
+
 export const Artist = new model('Artist', artistSchema)
