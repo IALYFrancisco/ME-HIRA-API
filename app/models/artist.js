@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { normalizeText } from "../services/song";
 
 const artistSchema = new Schema({
     name: { type: String }, /** this is the full real name of the subject */
@@ -15,6 +16,14 @@ const artistSchema = new Schema({
 artistSchema.set("optimisticConcurrency", true)
 
 artistSchema.pre("save", async function () {
+
+    if(this.name && !this.normalizedName){
+        this.normalizedName = normalizeText(this.name)
+    }
+
+    if(!this.normalizedArtistName){
+        this.normalizedArtistName = normalizeText(this.normalizedArtistName)
+    }
     
 })
 
