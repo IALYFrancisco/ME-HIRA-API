@@ -232,12 +232,12 @@ export async function UpdateSong(request, response) {
   }
 }
 
-export async function SongPublication(req, res) {
+export async function SongPublication(request, response) {
   try {
-    await Song.findByIdAndUpdate(req.body.song, req.body.update);
-    res.status(200).end();
+    await Song.findByIdAndUpdate(request.body.song, request.body.update);
+    response.status(200).end();
   } catch {
-    res.status(500).end();
+    response.status(500).end();
   }
 }
 
