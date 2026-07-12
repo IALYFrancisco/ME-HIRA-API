@@ -6,12 +6,13 @@ export async function GetArtist(request, response){
     try{
 
         const { prompt } = request.query
+        let artists = []
 
         if(prompt && prompt.trim() !== ""){
 
             const normalized_prompt = normalizeText(prompt)
             
-            const aggregations = [
+            const stages = [
                 { 
                     $lookup: { 
                         from: "contactartists",
@@ -37,10 +38,14 @@ export async function GetArtist(request, response){
                     } 
                 }
             ]
+
+            artists = await Artist.aggregate(stages)
+
+            return response.status(200).json(artists)
             
         }
 
-        let artists = await Artist.aggregate([
+        artists = await Artist.aggregate([
             { 
                 $lookup: { 
                     from: "contactartists",
@@ -59,10 +64,10 @@ export async function GetArtist(request, response){
             }
         ])
 
-        response.status(200).json(artists)
+        return response.status(200).json(artists)
     }
     catch{
-        response.status(500).end()
+        return response.status(500).end()
     }
 }
 
