@@ -90,5 +90,12 @@ export async function CreateArtistDocument(request, response) {
 }
 
 export async function DeleteArtistDocument( request, response ){
-
+    try{
+        const { docId } = request.body
+        await Artist.findByIdAndDelete(docId)
+        return response.status(200).end()
+    }
+    catch {
+        return response.status(500).end()
+    }
 }
