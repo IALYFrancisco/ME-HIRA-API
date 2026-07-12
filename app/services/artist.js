@@ -4,7 +4,11 @@ import { ContactArtist } from "../models/artistContact.js";
 export async function GetArtist(request, response){
     try{
 
-        if(request.query?.prompt && request.query.prompt.trim() !== ""){
+        const { prompt } = request.query
+
+        if(prompt && prompt.trim() !== ""){
+
+            
             
         }
 
