@@ -22,7 +22,7 @@ artistSchema.pre("save", async function () {
     }
 
     if(!this.normalizedArtistName){
-        this.normalizedArtistName = normalizeText(this.normalizedArtistName)
+        this.normalizedArtistName = normalizeText(this.artistName)
     }
     
 })
