@@ -85,6 +85,7 @@ export async function GetSong(request, response){
         }
         response.status(500).end()
     }
+}
 
   // =========================
 // TEMP DOWNLOAD (PRODUCTION ONLY USAGE)
