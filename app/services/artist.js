@@ -1,5 +1,6 @@
 import { Artist } from "../models/artist.js";
 import { ContactArtist } from "../models/artistContact.js";
+import { normalizeText } from "./song.js";
 
 export async function GetArtist(request, response){
     try{
@@ -8,7 +9,34 @@ export async function GetArtist(request, response){
 
         if(prompt && prompt.trim() !== ""){
 
+            const normalized_prompt = normalizeText(prompt)
             
+            const aggregations = [
+                { 
+                    $lookup: { 
+                        from: "contactartists",
+                        foreignField: "artistId",
+                        localField: "_id",
+                        as: "contacts"
+                    }
+                },
+                { $unwind: "$contacts" },
+                {
+                    $project: {
+                        __v: 0,
+                        "contacts.__v": 0,
+                        "contacts.artistId": 0
+                    }
+                },
+                { 
+                    $match: {
+                        $or: [
+                            { normalizedName: new RegExp(normalized_prompt, "i") },
+                            { normalizedArtistName: new RegExp(normalized_prompt, "i") },
+                        ]
+                    } 
+                }
+            ]
             
         }
 
