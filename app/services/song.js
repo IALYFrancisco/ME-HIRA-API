@@ -223,9 +223,6 @@ export async function AddSong(request, response) {
   }
 }
 
-// =========================
-// UPDATE / DELETE
-// =========================
 export async function UpdateSong(req, res) {
   try {
     await Song.findByIdAndUpdate(req.body.song, req.body.update);
