@@ -42,9 +42,6 @@ async function safeDelete(filePath) {
   } catch {}
 }
 
-// =========================
-// GET SONG
-// =========================
 export async function GetSong(request, response) {
   try {
     let authorization = request.headers.authorization;
