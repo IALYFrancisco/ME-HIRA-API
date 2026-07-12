@@ -93,6 +93,7 @@ export async function DeleteArtistDocument( request, response ){
     try{
         const { docId } = request.body
         await Artist.findByIdAndDelete(docId)
+        await ContactArtist.findOneAndDelete({ artistId: docId })
         return response.status(200).end()
     }
     catch {
