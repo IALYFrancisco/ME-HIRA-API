@@ -327,9 +327,6 @@ export function normalizeText(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
-// =========================
-// GITHUB THUMB UPLOAD
-// =========================
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
