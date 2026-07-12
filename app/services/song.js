@@ -318,9 +318,6 @@ export async function generateThumbnail(videoPath, outputPath) {
   return outputPath;
 }
 
-// =========================
-// HELPERS
-// =========================
 export function normalizeText(text) {
   if (Array.isArray(text)) text = text.join(" ");
 
