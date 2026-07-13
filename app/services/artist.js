@@ -99,6 +99,11 @@ export async function UpdateArtistDocument(request, response){
             return response.status(200).end()
         }
 
+        if(update.artistContact){
+            await ContactArtist.findByIdAndUpdate(update.docId, update.artistContact)
+            return response.status(200).end()
+        }
+
     }
     catch{
         return response.status(500).end()
