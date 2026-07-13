@@ -90,7 +90,16 @@ export async function CreateArtistDocument(request, response) {
 }
 
 export async function UpdateArtistDocument(request, response){
-    try{}
+    try{
+
+        const { update } = request.body
+        
+        if(update.artist){
+            await Artist.findByIdAndUpdate(update.docId, update.artist)
+            return response.status(200).end()
+        }
+
+    }
     catch{
         return response.status(500).end()
     }
