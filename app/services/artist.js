@@ -92,22 +92,24 @@ export async function CreateArtistDocument(request, response) {
 export async function UpdateArtistDocument(request, response){
     try{
 
-        const { update } = request.body
+        const { artist, artistContact, docId } = request.body.update
         
-        if(update.artist){
-            await Artist.findByIdAndUpdate(update.docId, update.artist)
+        if(artist){
+	console.log("artist is defined")
+            await Artist.findByIdAndUpdate(docId, artist)
             return response.status(200).end()
         }
 
-        if(update.artistContact){
-            await ContactArtist.findByIdAndUpdate(update.docId, update.artistContact)
+        if(artistContact){
+            await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContact)
             return response.status(200).end()
         }
 
         return response.status(400).end()
 
     }
-    catch{
+    catch(error){
+console.log(error)
         return response.status(500).end()
     }
 }
