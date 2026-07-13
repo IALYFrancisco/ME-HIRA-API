@@ -90,7 +90,10 @@ export async function CreateArtistDocument(request, response) {
 }
 
 export async function UpdateArtistDocument(request, response){
-    
+    try{}
+    catch{
+        return response.status(500).end()
+    }
 }
 
 export async function DeleteArtistDocument( request, response ){
