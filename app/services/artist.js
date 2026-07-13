@@ -89,6 +89,29 @@ export async function CreateArtistDocument(request, response) {
     }
 }
 
+export async function UpdateArtistDocument(request, response){
+    try{
+
+        const { artist, artistContact, docId } = request.body.update
+        
+        if(artist){
+            await Artist.findByIdAndUpdate(docId, artist)
+            return response.status(200).end()
+        }
+
+        if(artistContact){
+            await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContact)
+            return response.status(200).end()
+        }
+
+        return response.status(400).end()
+
+    }
+    catch{
+        return response.status(500).end()
+    }
+}
+
 export async function DeleteArtistDocument( request, response ){
     try{
         const { docId } = request.body
