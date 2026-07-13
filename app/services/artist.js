@@ -95,7 +95,6 @@ export async function UpdateArtistDocument(request, response){
         const { artist, artistContact, docId } = request.body.update
         
         if(artist){
-	console.log("artist is defined")
             await Artist.findByIdAndUpdate(docId, artist)
             return response.status(200).end()
         }
@@ -108,8 +107,7 @@ export async function UpdateArtistDocument(request, response){
         return response.status(400).end()
 
     }
-    catch(error){
-console.log(error)
+    catch{
         return response.status(500).end()
     }
 }
