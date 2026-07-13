@@ -89,6 +89,10 @@ export async function CreateArtistDocument(request, response) {
     }
 }
 
+export async function UpdateArtistDocument(request, response){
+    
+}
+
 export async function DeleteArtistDocument( request, response ){
     try{
         const { docId } = request.body
