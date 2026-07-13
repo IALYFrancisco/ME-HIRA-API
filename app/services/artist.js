@@ -104,6 +104,8 @@ export async function UpdateArtistDocument(request, response){
             return response.status(200).end()
         }
 
+        return response.status(400).end()
+
     }
     catch{
         return response.status(500).end()
