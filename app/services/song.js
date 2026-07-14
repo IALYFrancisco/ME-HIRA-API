@@ -171,9 +171,6 @@ export async function AddSong(request, response) {
 
     const newSong = new Song(song);
 
-    // =========================
-    // THUMBNAIL
-    // =========================
     if (song.fileType === "video") {
       const thumbName = `${Date.now()}.jpg`;
 
