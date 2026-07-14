@@ -76,7 +76,12 @@ export async function GetSong(request, response) {
       jwt.verify(authorization.split(" ")[1], process.env.ACCESS_TOKEN_SECRET);
 
       if (request.query.slug) {
-        let song = await Song.findOne({ slug: request.query.slug });
+        let song = await Song.findOne({ slug: request.query.slug }, {
+          slugId: 0,
+          normalized_title: 0,
+          normalized_singer: 0,
+          __v: 0
+        });
         return response.status(200).json(song);
       }
 
