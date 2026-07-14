@@ -115,9 +115,6 @@ export async function GetSong(request, response) {
   }
 }
 
-// =========================
-// ADD SONG (FIXED)
-// =========================
 export async function AddSong(request, response) {
   let tempFile = null;
 
