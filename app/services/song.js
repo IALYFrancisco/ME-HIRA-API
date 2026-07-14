@@ -214,9 +214,6 @@ export async function AddSong(request, response) {
   } catch{
     return response.status(500).end();
   } finally {
-    // =========================
-    // CLEANUP TEMP FILE
-    // =========================
     if (tempFile) {
       await safeDelete(tempFile);
     }
