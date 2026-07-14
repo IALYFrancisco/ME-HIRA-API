@@ -121,7 +121,12 @@ export async function GetSong(request, response) {
 
       if (fileType) filter.fileType = fileType;
 
-      const song = await Song.find(filter).limit(20);
+      const song = await Song.find(filter, {
+        normalized_title: 0,
+        normalized_singer: 0,
+        slugId: 0,
+        __v: 0
+      }).limit(20);
       return response.status(200).json(song);
     }
 
