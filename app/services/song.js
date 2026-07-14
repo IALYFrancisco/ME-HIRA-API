@@ -105,7 +105,12 @@ export async function GetSong(request, response) {
       return response.status(200).json(song);
     }
 
-    let songs = await Song.find({ published: true });
+    let songs = await Song.find({ published: true }, {
+      __v: 0,
+      normalized_title: 0,
+      normalized_singer: 0,
+      slugId: 0,
+    });
     return response.status(200).json(songs);
   } catch (error) {
     if (error.name === "TokenExpiredError") {
