@@ -211,8 +211,7 @@ export async function AddSong(request, response) {
     await newSong.save();
 
     return response.status(201).end();
-  } catch(e) {
-    console.log(e)
+  } catch{
     return response.status(500).end();
   } finally {
     // =========================
