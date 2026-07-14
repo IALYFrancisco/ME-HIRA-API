@@ -164,9 +164,6 @@ export async function AddSong(request, response) {
       }
     }
 
-    // =========================
-    // DURATION (SAFE)
-    // =========================
     const durationSeconds = await getVideoDuration(fileSource);
 
     const newSong = new Song(song);
