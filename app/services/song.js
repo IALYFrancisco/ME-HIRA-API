@@ -98,6 +98,11 @@ export async function GetSong(request, response) {
       let song = await Song.findOne({
         slug: request.query.slug,
         published: true,
+      },{
+        normalized_title: 0,
+        normalized_singer: 0,
+        slugId: 0,
+        __v: 0
       });
       return response.status(200).json(song);
     }
