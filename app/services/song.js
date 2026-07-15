@@ -64,18 +64,33 @@ export async function GetSong(request, response) {
 
         if (fileType) filter.fileType = fileType;
 
-        const song = await Song.find(filter).limit(20);
+        const song = await Song.find(filter, {
+          slugId: 0,
+          normalized_title: 0,
+          normalized_singer: 0,
+          __v: 0
+        }).limit(20);
         return response.status(200).json(song);
       }
 
       jwt.verify(authorization.split(" ")[1], process.env.ACCESS_TOKEN_SECRET);
 
       if (request.query.slug) {
-        let song = await Song.findOne({ slug: request.query.slug });
+        let song = await Song.findOne({ slug: request.query.slug }, {
+          slugId: 0,
+          normalized_title: 0,
+          normalized_singer: 0,
+          __v: 0
+        });
         return response.status(200).json(song);
       }
 
-      let songs = await Song.find();
+      let songs = await Song.find({}, {
+        normalized_title: 0,
+        normalized_singer: 0,
+        slugId: 0,
+        __v: 0
+      });
       return response.status(200).json(songs);
     }
 
@@ -83,6 +98,11 @@ export async function GetSong(request, response) {
       let song = await Song.findOne({
         slug: request.query.slug,
         published: true,
+      },{
+        normalized_title: 0,
+        normalized_singer: 0,
+        slugId: 0,
+        __v: 0
       });
       return response.status(200).json(song);
     }
@@ -101,11 +121,21 @@ export async function GetSong(request, response) {
 
       if (fileType) filter.fileType = fileType;
 
-      const song = await Song.find(filter).limit(20);
+      const song = await Song.find(filter, {
+        normalized_title: 0,
+        normalized_singer: 0,
+        slugId: 0,
+        __v: 0
+      }).limit(20);
       return response.status(200).json(song);
     }
 
-    let songs = await Song.find({ published: true });
+    let songs = await Song.find({ published: true }, {
+      __v: 0,
+      normalized_title: 0,
+      normalized_singer: 0,
+      slugId: 0,
+    });
     return response.status(200).json(songs);
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -115,9 +145,6 @@ export async function GetSong(request, response) {
   }
 }
 
-// =========================
-// ADD SONG (FIXED)
-// =========================
 export async function AddSong(request, response) {
   let tempFile = null;
 
@@ -164,16 +191,10 @@ export async function AddSong(request, response) {
       }
     }
 
-    // =========================
-    // DURATION (SAFE)
-    // =========================
     const durationSeconds = await getVideoDuration(fileSource);
 
     const newSong = new Song(song);
 
-    // =========================
-    // THUMBNAIL
-    // =========================
     if (song.fileType === "video") {
       const thumbName = `${Date.now()}.jpg`;
 
@@ -211,13 +232,9 @@ export async function AddSong(request, response) {
     await newSong.save();
 
     return response.status(201).end();
-  } catch(e) {
-    console.log(e)
+  } catch{
     return response.status(500).end();
   } finally {
-    // =========================
-    // CLEANUP TEMP FILE
-    // =========================
     if (tempFile) {
       await safeDelete(tempFile);
     }
