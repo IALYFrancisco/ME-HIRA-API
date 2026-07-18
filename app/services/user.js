@@ -24,6 +24,7 @@ export async function CheckUser(request, response){
     try{
         const { user } = request.body
         let _user = await User.findOne({ _id: user._id })
+        if(!_user) return response.status(404).end()
     }
     catch{
         return response.status(500).end()
