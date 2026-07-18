@@ -36,7 +36,9 @@ export async function CheckUser(request, response){
 }
 
 export async function UpdateUser(request, response){
-    try{}
+    try{
+        const { user, update } = request.body
+    }
     catch{
         return response.status(500).end()
     }
