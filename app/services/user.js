@@ -19,3 +19,10 @@ export async function GetCurrentUserInformations(request, response){
         response.status(500).end()
     }
 }
+
+export async function CheckUser(request, response){
+    try{}
+    catch{
+        return response.status(500).end()
+    }
+}
