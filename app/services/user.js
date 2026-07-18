@@ -38,6 +38,7 @@ export async function CheckUser(request, response){
 export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
+        await User.findByIdAndUpdate(user._id, update)
     }
     catch{
         return response.status(500).end()
