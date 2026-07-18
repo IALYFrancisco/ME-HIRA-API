@@ -39,11 +39,19 @@ export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
 
+        await User.findByIdAndUpdate(user._id, update)
+
         if(update.email || update.password){
 
+            response.clearCookie("rt.sid", {
+                httpOnly: true,
+                secure: process.env.APP_ENV_STATE === "production",
+                sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
+                path: "/"
+            })
+            
         }
 
-        await User.findByIdAndUpdate(user._id, update)
         return response.status(200).end()
     }
     catch{
