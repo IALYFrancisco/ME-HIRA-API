@@ -23,6 +23,7 @@ export async function GetCurrentUserInformations(request, response){
 export async function CheckUser(request, response){
     try{
         const { user } = request.body
+        let _user = await User.findOne({ _id: user._id })
     }
     catch{
         return response.status(500).end()
