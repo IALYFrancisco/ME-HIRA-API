@@ -1,5 +1,6 @@
 import { compare } from "bcrypt"
 import { User } from "../models/user.js"
+import { HashPassword } from "./authentication.js"
 
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
@@ -38,6 +39,10 @@ export async function CheckUser(request, response){
 export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
+
+        if(update.password){
+            update.password = await HashPassword(update.password)
+        }
 
         await User.findByIdAndUpdate(user, update)
 
