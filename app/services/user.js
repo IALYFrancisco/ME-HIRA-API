@@ -21,7 +21,9 @@ export async function GetCurrentUserInformations(request, response){
 }
 
 export async function CheckUser(request, response){
-    try{}
+    try{
+        const { user } = request.body
+    }
     catch{
         return response.status(500).end()
     }
