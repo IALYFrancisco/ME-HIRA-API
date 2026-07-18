@@ -39,6 +39,7 @@ export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
         await User.findByIdAndUpdate(user._id, update)
+        return response.status(200).end()
     }
     catch{
         return response.status(500).end()
