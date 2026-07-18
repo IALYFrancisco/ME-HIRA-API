@@ -28,6 +28,7 @@ export async function CheckUser(request, response){
         if(!_user) return response.status(404).end()
         const match = await compare(user.password, _user.password)
         if(!match) return response.status(403).end()
+        return response.status(200).end()
     }
     catch{
         return response.status(500).end()
