@@ -39,7 +39,7 @@ export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
 
-        await User.findByIdAndUpdate(user._id, update)
+        await User.findByIdAndUpdate(user, update)
 
         if(update.email || update.password){
 
