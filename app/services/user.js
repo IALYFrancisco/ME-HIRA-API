@@ -34,3 +34,7 @@ export async function CheckUser(request, response){
         return response.status(500).end()
     }
 }
+
+export async function UpdateUser(request, response){
+    
+}
