@@ -38,6 +38,11 @@ export async function CheckUser(request, response){
 export async function UpdateUser(request, response){
     try{
         const { user, update } = request.body
+
+        if(update.email || update.password){
+
+        }
+
         await User.findByIdAndUpdate(user._id, update)
         return response.status(200).end()
     }
