@@ -155,9 +155,6 @@ export async function AddSong(request, response) {
 
     let fileSource = null;
 
-    // =========================
-    // LOCAL UPLOAD
-    // =========================
     if (request.file) {
       fileSource = request.file.path;
 
