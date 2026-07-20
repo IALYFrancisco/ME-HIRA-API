@@ -166,9 +166,6 @@ export async function AddSong(request, response) {
       }
     }
 
-    // =========================
-    // EXTERNAL URL
-    // =========================
     else {
       const url = new URL(song.fileUrl);
       const ext = path.extname(url.pathname).toLowerCase();
