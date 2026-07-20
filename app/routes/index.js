@@ -3,6 +3,8 @@ import { songRouter } from "./song.js";
 import { authenticationRouter } from "./authentication.js";
 import { userRouter } from "./user.js";
 import { artistRouter } from "./artist.js";
+import { isAuthenticated } from "../services/authentication.js";
+import { isAdminOrSuperuser } from "../services/user.js";
 
 export const appRouter = Router()
 
