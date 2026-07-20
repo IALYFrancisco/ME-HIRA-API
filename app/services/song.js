@@ -178,7 +178,6 @@ export async function AddSong(request, response) {
 
       fileSource = song.fileUrl;
 
-      // 🔥 IMPORTANT FIX : DOWNLOAD ONLY IN PROD
       if (isProd) {
         tempFile = await downloadToTempFile(song.fileUrl);
         fileSource = tempFile;
