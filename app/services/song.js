@@ -243,14 +243,14 @@ export async function UpdateSong(request, response) {
   }
 }
 
-export async function SongPublication(request, response) {
-  try {
-    await Song.findByIdAndUpdate(request.body.song, request.body.update);
-    response.status(200).end();
-  } catch {
-    response.status(500).end();
-  }
-}
+// export async function SongPublication(request, response) {
+//   try {
+//     await Song.findByIdAndUpdate(request.body.song, request.body.update);
+//     response.status(200).end();
+//   } catch {
+//     response.status(500).end();
+//   }
+// }
 
 export async function DeleteSong(request, response) {
   try {
