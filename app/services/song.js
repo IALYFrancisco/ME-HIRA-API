@@ -155,9 +155,6 @@ export async function AddSong(request, response) {
 
     let fileSource = null;
 
-    // =========================
-    // LOCAL UPLOAD
-    // =========================
     if (request.file) {
       fileSource = request.file.path;
 
@@ -169,9 +166,6 @@ export async function AddSong(request, response) {
       }
     }
 
-    // =========================
-    // EXTERNAL URL
-    // =========================
     else {
       const url = new URL(song.fileUrl);
       const ext = path.extname(url.pathname).toLowerCase();
@@ -184,7 +178,6 @@ export async function AddSong(request, response) {
 
       fileSource = song.fileUrl;
 
-      // 🔥 IMPORTANT FIX : DOWNLOAD ONLY IN PROD
       if (isProd) {
         tempFile = await downloadToTempFile(song.fileUrl);
         fileSource = tempFile;
@@ -242,15 +235,6 @@ export async function AddSong(request, response) {
 }
 
 export async function UpdateSong(request, response) {
-  try {
-    await Song.findByIdAndUpdate(request.body.song, request.body.update);
-    response.status(200).end();
-  } catch {
-    response.status(500).end();
-  }
-}
-
-export async function SongPublication(request, response) {
   try {
     await Song.findByIdAndUpdate(request.body.song, request.body.update);
     response.status(200).end();

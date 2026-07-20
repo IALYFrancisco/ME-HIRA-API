@@ -1,4 +1,6 @@
+import { compare } from "bcrypt"
 import { User } from "../models/user.js"
+import { HashPassword } from "./authentication.js"
 
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
@@ -17,5 +19,47 @@ export async function GetCurrentUserInformations(request, response){
     }
     catch{
         response.status(500).end()
+    }
+}
+
+export async function CheckUser(request, response){
+    try{
+        const { user } = request.body
+        let _user = await User.findOne({ _id: user._id })
+        if(!_user) return response.status(404).end()
+        const match = await compare(user.password, _user.password)
+        if(!match) return response.status(403).end()
+        return response.status(200).end()
+    }
+    catch{
+        return response.status(500).end()
+    }
+}
+
+export async function UpdateUser(request, response){
+    try{
+        const { user, update } = request.body
+
+        if(update.password){
+            update.password = await HashPassword(update.password)
+        }
+
+        await User.findByIdAndUpdate(user, update)
+
+        if(update.email || update.password){
+
+            response.clearCookie("rt.sid", {
+                httpOnly: true,
+                secure: process.env.APP_ENV_STATE === "production",
+                sameSite: process.env.APP_ENV_STATE === "production" ? "none" : "lax",
+                path: "/"
+            })
+            
+        }
+
+        return response.status(200).end()
+    }
+    catch{
+        return response.status(500).end()
     }
 }
