@@ -6,6 +6,6 @@ import { isAdminOrSuperuser } from "../services/user.js";
 export const artistRouter = Router()
 
 artistRouter.get('/get', GetArtist)
-artistRouter.post('/create-document', isAuthenticated, isAdminOrSuperuser, CreateArtistDocument)
+artistRouter.post('/create-document', CreateArtistDocument)
 artistRouter.patch('/update', isAuthenticated, isAdminOrSuperuser, UpdateArtistDocument)
 artistRouter.delete('/delete', isAuthenticated, isAdminOrSuperuser, DeleteArtistDocument)
