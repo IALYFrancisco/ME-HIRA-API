@@ -5,7 +5,7 @@ const userSchema = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     status: { type: String, required: true, default: 'user' },
-    theme: { type: String, enum: ["light", "dark", "system"], default: "light" }
+    theme: { type: String, enum: [ "light", "dark", "system" ], default: "light" }
 }, { timestamps: true })
 
 userSchema.set('optimisticConcurrency', true)
