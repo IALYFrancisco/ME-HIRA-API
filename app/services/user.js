@@ -72,6 +72,7 @@ export async function ForgottenPasswordCheckAccount(request, response) {
         if(user){
             
         }
+        return response.status(400).end()
     }
     catch{
         return response.status(500).end()
