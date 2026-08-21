@@ -63,3 +63,7 @@ export async function UpdateUser(request, response){
         return response.status(500).end()
     }
 }
+
+export async function ForgottenPasswordCheckAccount(request, response) {
+    
+}
