@@ -64,6 +64,10 @@ export async function UpdateUser(request, response){
     }
 }
 
+// Service permettant de vérifier si l'email fourni est associé à un count me-hira avant tout action de mot de passe oublié. 
 export async function ForgottenPasswordCheckAccount(request, response) {
-    
+    try{}
+    catch{
+        return response.status(500).end()
+    }
 }
