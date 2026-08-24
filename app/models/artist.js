@@ -11,7 +11,7 @@ const artistSchema = new Schema({
     birthDayAndPlace : { type: String },
     normalizedName: { type: String },
     normalizedArtistName: { type: String }
-})
+}, { timestamps: true })
 
 artistSchema.set("optimisticConcurrency", true)
 
