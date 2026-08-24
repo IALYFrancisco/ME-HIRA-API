@@ -1,6 +1,7 @@
 import { compare } from "bcrypt"
 import { User } from "../models/user.js"
 import { HashPassword } from "./authentication.js"
+import { randomBytes } from "crypto"
 
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
@@ -70,7 +71,7 @@ export async function ForgottenPasswordCheckAccount(request, response) {
         const { email } = request.body
         const user = await User.findOne({ email: email })
         if(user){
-            
+            const resetPasswordToken = randomBytes(32).toString("hex")
         }
         return response.status(200).end()
     }
