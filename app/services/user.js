@@ -116,6 +116,20 @@ export async function ForgottenPasswordCheckAccount(request, response) {
 
             await resetPasswordToken.save()
 
+            const email = {
+                name: "Email provenant du platefrme Me-Hira.",
+                subject: "Email de réinitialisation de mot de passe",
+                sender: {
+                    name: "Me-Hira",
+                    email: "franciscoialy43@gmail.com"
+                },
+                to: [{
+                    name: `${user.name}`,
+                    email: `${user.email}`
+                }],
+                htmlContent: templateEmail
+            }
+
             await axios.post()
 
         }
