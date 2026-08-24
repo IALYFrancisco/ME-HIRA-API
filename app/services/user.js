@@ -110,7 +110,7 @@ export async function ForgottenPasswordCheckAccount(request, response) {
             const resetPasswordToken = new ResetPasswordToken({
                 userId: user._id,
                 hashedToken: hashedResetPasswordToken,
-                expiresAt: Date.now,
+                expiresAt: new Date(Date.now() + 30 * 60 * 1000),
             })
 
         }
