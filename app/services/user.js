@@ -108,6 +108,8 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                 </html>
             `
 
+            await ResetPasswordToken.deleteMany({ userId: user._id })
+
             const newResetPasswordToken = new ResetPasswordToken({
                 userId: user._id,
                 hashedToken: hashedResetPasswordToken,
