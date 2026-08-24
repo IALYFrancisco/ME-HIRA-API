@@ -69,6 +69,12 @@ export async function CheckResetPasswordToken(request, response){
         const hashedK = createHash("sha256").update(k).digest("hex")
         const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
         
+        if(!resetPasswordToken) return response.status(400).end()
+
+        if(resetPasswordToken.used) return response.status(400).end()
+
+        if(resetPasswordToken.expiresAt <= new Date() ) return response.status(400).end()
+
         return response.status(200).end()
     }
     catch{
