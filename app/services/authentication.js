@@ -1,6 +1,8 @@
 import { compare, hash } from "bcrypt"
 import { User } from "../models/user.js"
 import jwt from "jsonwebtoken"
+import { ResetPasswordToken } from "../models/resetPasswordToken.js"
+import { createHash } from "crypto"
 
 export async function Login(request, response) {
  try{
@@ -62,7 +64,11 @@ export async function Logout(request, response){
 }
 
 export async function CheckResetPasswordToken(request, response){
-    try{}
+    try{
+        const { k, password } = request.body
+        const hashedK = createHash("sha256").update(k).digest("hex")
+        const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
+    }
     catch{
         return response.status(500).end()
     }
