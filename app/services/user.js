@@ -108,13 +108,13 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                 </html>
             `
 
-            const resetPasswordToken = new ResetPasswordToken({
+            const newResetPasswordToken = new ResetPasswordToken({
                 userId: user._id,
                 hashedToken: hashedResetPasswordToken,
                 expiresAt: new Date(Date.now() + 30 * 60 * 1000),
             })
 
-            await resetPasswordToken.save()
+            await newResetPasswordToken.save()
 
             const email = {
                 name: "Email provenant du platefrme Me-Hira.",
