@@ -5,7 +5,7 @@ const resetPasswordTokenSchema = new Schema({
     hashedToken : { type: String, required: true },
     expiresAt : { type: Date, require: true },
     used: { type: Boolean, default: false, required: true }
-})
+}, { timestamps: true })
 
 resetPasswordTokenSchema.set("optimisticConcurrency", true)
 
