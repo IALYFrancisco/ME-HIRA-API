@@ -3,6 +3,7 @@ import { User } from "../models/user.js"
 import { HashPassword } from "./authentication.js"
 import { createHash, randomBytes } from "crypto"
 import { ResetPasswordToken } from "../models/resetPasswordToken.js"
+import axios from "axios"
 
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
@@ -112,6 +113,10 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                 hashedToken: hashedResetPasswordToken,
                 expiresAt: new Date(Date.now() + 30 * 60 * 1000),
             })
+
+            await resetPasswordToken.save()
+
+            await axios.post()
 
         }
         return response.status(200).end()
