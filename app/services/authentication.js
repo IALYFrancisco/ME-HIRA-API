@@ -65,7 +65,7 @@ export async function Logout(request, response){
 
 export async function CheckResetPasswordToken(request, response){
     try{
-        const { k, password } = request.body
+        const { k } = request.body
         const hashedK = createHash("sha256").update(k).digest("hex")
         const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
         if(resetPasswordToken){
@@ -73,6 +73,7 @@ export async function CheckResetPasswordToken(request, response){
             if(resetPasswordToken.used){
                 return response.status(400).end()
             }
+            return response.status(200).end()
         }
         return response.status(400).end()
     }
