@@ -130,7 +130,10 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                 htmlContent: templateEmail
             }
 
-            await axios.post()
+            await axios.post(`${process.env.EMAIL_SERVER_URL}`, email, { headers: {
+                "Content-Type": "application/json",
+                "api-key": process.env.EMAIL_API_KEY
+            } })
 
         }
         return response.status(200).end()
