@@ -96,8 +96,8 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                         <a href="https://mehira.onrender.com" target="_blank" style="width: max-content; margin: auto;">
                             <img src="https://mehira.onrender.com/images/logo-de-me-hira.png" alt="logo du plateforme me-hira" style="width: 65px;">
                         </a>
-                        <p class="lato-regular">Bonjour <strong>Jean Joseph Rabearivelo</strong>, veuillez clicker sur le bouton ci-dessous afin de réinitialiser le mot de passe de votre compte utilisateur <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> .</p>
-                        <a target="_blank" href="https://mehira.onrender.com/authentication/reset-password" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: 40px auto;">
+                        <p class="lato-regular">Bonjour <strong>${user.name}</strong>, veuillez clicker sur le bouton ci-dessous afin de réinitialiser le mot de passe de votre compte utilisateur <span style="background-color: #FEC700; padding: 3px 5px;border-radius: 5px;font-size: 13px;">Me-Hira</span> .</p>
+                        <a target="_blank" href="https://mehira.onrender.com/authentication/reset-password?k=${resetPasswordToken}" style="display: block;border: 1px solid #FEC700;padding: 2px;width: fit-content;height: fit-content;border-radius: 12px; margin: 40px auto;">
                             <button class="lato-regular" style="padding: 10px 15px;background-color: #FEC700;border: none;border-radius: 10px;cursor: pointer; color: #191919;">Réinitialiser mon mot de passe</button>
                         </a>
                     </section>
