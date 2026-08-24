@@ -61,6 +61,8 @@ export async function Logout(request, response){
     }
 }
 
+export async function CheckResetPasswordToken(request, response){}
+
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
