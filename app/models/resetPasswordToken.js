@@ -6,3 +6,7 @@ const resetPasswordTokenSchema = new Schema({
     expiresAt : { type: Date, require: true },
     used: { type: Boolean, default: false, required: true }
 })
+
+resetPasswordTokenSchema.set("optimisticConcurrency", true)
+
+export const ResetPasswordToken = new model("ResetPasswordToken", resetPasswordTokenSchema)
