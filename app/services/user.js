@@ -2,6 +2,7 @@ import { compare } from "bcrypt"
 import { User } from "../models/user.js"
 import { HashPassword } from "./authentication.js"
 import { createHash, randomBytes } from "crypto"
+import { ResetPasswordToken } from "../models/resetPasswordToken.js"
 
 export function isAdminOrSuperuser(request, response, next) {
     let { user } = request
@@ -105,6 +106,12 @@ export async function ForgottenPasswordCheckAccount(request, response) {
                 </body>
                 </html>
             `
+
+            const resetPasswordToken = new ResetPasswordToken({
+                userId: user._id,
+                hashedToken: hashedResetPasswordToken,
+                expiresAt: Date.now,
+            })
 
         }
         return response.status(200).end()
