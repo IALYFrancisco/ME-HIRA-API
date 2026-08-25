@@ -66,18 +66,49 @@ export async function Logout(request, response){
 export async function CheckResetPasswordToken(request, response){
     try{
         const { k } = request.body
+
+        if(!k) return response.status(400).end()
+
         const hashedK = createHash("sha256").update(k).digest("hex")
         const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
-        if(resetPasswordToken){
-            // const tokenIsExpired =
-            if(resetPasswordToken.used){
-                return response.status(400).end()
-            }
-            return response.status(200).end()
-        }
-        return response.status(400).end()
+        
+        if(!resetPasswordToken) return response.status(400).end()
+
+        if(resetPasswordToken.used) return response.status(400).end()
+
+        if(resetPasswordToken.expiresAt <= new Date() ) return response.status(400).end()
+
+        return response.status(200).end()
     }
     catch{
+        return response.status(500).end()
+    }
+}
+
+export async function ResetWithKForgottenPassword(request, response){
+    try {
+        
+        const { k, password } = request.body
+
+        if(!k || !password) return response.status(400).end()
+
+        const hashedK = createHash("sha256").update(k).digest("hex")
+        const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
+
+        if(!resetPasswordToken) return response.status(400).end()
+
+        const tokenIsExpired = resetPasswordToken.expiresAt <= new Date()
+
+        if( resetPasswordToken.used || tokenIsExpired ) return response.status(400).end()
+
+        const hashedPassword = await HashPassword(password)
+
+        await User.findByIdAndUpdate(resetPasswordToken.userId, { password: hashedPassword })
+        await ResetPasswordToken.findByIdAndUpdate(resetPasswordToken._id, { used: true })
+
+        return response.status(200).end()
+
+    } catch {
         return response.status(500).end()
     }
 }
