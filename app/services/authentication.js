@@ -88,6 +88,10 @@ export async function CheckResetPasswordToken(request, response){
 export async function ResetWithKForgottenPassword(request, response){
     try {
         
+        const { k, password } = request.body
+
+        if(!k || !password) return response.status(400).end()
+
     } catch {
         return response.status(500).end()
     }
