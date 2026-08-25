@@ -92,6 +92,9 @@ export async function ResetWithKForgottenPassword(request, response){
 
         if(!k || !password) return response.status(400).end()
 
+        const hashedK = createHash("sha256").update(k).digest("hex")
+        const resetPasswordToken = await ResetPasswordToken.findOne({ hashedToken: hashedK })
+
     } catch {
         return response.status(500).end()
     }
