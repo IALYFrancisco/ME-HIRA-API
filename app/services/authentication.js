@@ -104,8 +104,7 @@ export async function ResetWithKForgottenPassword(request, response){
         const hashedPassword = await HashPassword(password)
 
         await User.findByIdAndUpdate(resetPasswordToken.userId, { password: hashedPassword })
-        resetPasswordToken.used = false
-        await resetPasswordToken.save()
+        await ResetPasswordToken.findByIdAndUpdate(resetPasswordToken._id, { used: true })
 
         return response.status(200).end()
 
