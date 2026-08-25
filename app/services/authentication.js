@@ -85,6 +85,10 @@ export async function CheckResetPasswordToken(request, response){
     }
 }
 
+export async function ResetWithKForgottenPassword(request, response){
+
+}
+
 export function isAuthenticated(request, response, next){
     try{
         const authorization = request.headers.authorization
