@@ -86,7 +86,11 @@ export async function CheckResetPasswordToken(request, response){
 }
 
 export async function ResetWithKForgottenPassword(request, response){
-
+    try {
+        
+    } catch {
+        return response.status(500).end()
+    }
 }
 
 export function isAuthenticated(request, response, next){
