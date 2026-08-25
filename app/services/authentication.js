@@ -107,6 +107,8 @@ export async function ResetWithKForgottenPassword(request, response){
         resetPasswordToken.used = false
         await resetPasswordToken.save()
 
+        return response.status(200).end()
+
     } catch {
         return response.status(500).end()
     }
