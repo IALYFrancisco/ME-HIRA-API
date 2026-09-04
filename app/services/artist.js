@@ -1,6 +1,8 @@
+import multer from "multer";
 import { Artist } from "../models/artist.js";
 import { ContactArtist } from "../models/artistContact.js";
 import { normalizeText } from "./song.js";
+import path from "path"
 
 export async function GetArtist(request, response){
     try{
@@ -73,18 +75,46 @@ export async function GetArtist(request, response){
 
 export async function CreateArtistDocument(request, response) {
     try{
-        const { artist, contact } = request.body
-        let newArtistDocument = new Artist(artist)
-        newArtistDocument.roles = artist.roles.split(", ")
-        newArtistDocument = await newArtistDocument.save()
-        let newArtistContact = new ContactArtist(contact)
-        newArtistContact.artistId = newArtistDocument._id
-        newArtistContact = await newArtistContact.save()
+        const {
+            name,
+            email,
+            about,
+            roles,
+            image,
+            address,
+            artistName,
+            phoneNumber,
+            birthDayAndPlace
+        } = request.body
+
+        const artist = {
+            name,
+            artistName,
+            roles: roles.split(", "),
+            about,
+            address,
+            birthDayAndPlace
+        }
+
+        if(request.file){
+            const uniqueName = request.file.filename
+            artist.image = `/artist/profiles/${uniqueName}`
+        }else if (image){
+            artist.image = image
+        }
+
+        let newArtistDocument = await Artist.create(artist)
+        let newArtistContact = await ContactArtist.create({
+            artistId: newArtistDocument._id,
+            phoneNumber,
+            email
+        })
         if(newArtistDocument && newArtistContact){
             return response.status(201).end()
         }
     }
-    catch{
+    catch(e){
+        console.log(e)
         response.status(500).end()
     }
 }
@@ -123,3 +153,41 @@ export async function DeleteArtistDocument( request, response ){
         return response.status(500).end()
     }
 }
+
+
+// Configuration de storage pour l'upload des images artiste seulement
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./app/public/artist/profiles")
+    },
+    filename: (req, file, cb) => {
+        const extension = path.extname(file.originalname)
+        const uniqueName = `${Date.now()}${extension}`
+        cb(null, uniqueName)
+    }
+})
+
+// Filtre des fichiers image profile des artistes
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ]
+
+    if(allowedMimeTypes.includes(file.mimetype)){
+        cb(null, true)
+    }else{
+        cb(new Error("Seuls les fichiers images sont autorisés."))
+    }
+}
+
+// Cette configuration upload est utilisée uniquement par la route de création de document artiste.
+// Plus précisement pour uploder l'image d'un artiste.
+export const upload = multer({
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5Mo
+    }
+})
