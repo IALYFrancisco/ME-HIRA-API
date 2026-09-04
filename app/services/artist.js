@@ -126,6 +126,8 @@ export async function DeleteArtistDocument( request, response ){
     }
 }
 
+
+// Configuration de storage pour l'upload des images artiste seulement
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./app/public/artist/profiles")
