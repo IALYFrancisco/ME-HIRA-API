@@ -94,9 +94,11 @@ export async function CreateArtistDocument(request, response) {
         }
 
         let newArtistDocument = new Artist.create(artist)
-        let newArtistContact = new ContactArtist(contact)
-        newArtistContact.artistId = newArtistDocument._id
-        newArtistContact = await newArtistContact.save()
+        let newArtistContact = new ContactArtist.create({
+            artistId: newArtistDocument._id,
+            phoneNumber,
+            email
+        })
         if(newArtistDocument && newArtistContact){
             return response.status(201).end()
         }
