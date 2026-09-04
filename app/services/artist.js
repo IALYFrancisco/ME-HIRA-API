@@ -76,6 +76,11 @@ export async function GetArtist(request, response){
 export async function CreateArtistDocument(request, response) {
     try{
         const { artist, contact } = request.body
+
+        if(request.file){
+            
+        }
+
         let newArtistDocument = new Artist(artist)
         newArtistDocument.roles = artist.roles.split(", ")
         newArtistDocument = await newArtistDocument.save()
