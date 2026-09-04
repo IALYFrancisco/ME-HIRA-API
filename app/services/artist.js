@@ -78,7 +78,8 @@ export async function CreateArtistDocument(request, response) {
         const { artist, contact } = request.body
 
         if(request.file){
-            
+            const uniqueName = request.file.filename
+            artist.image = `/artist/profiles/${uniqueName}`
         }
 
         let newArtistDocument = new Artist(artist)
