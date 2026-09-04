@@ -75,7 +75,17 @@ export async function GetArtist(request, response){
 
 export async function CreateArtistDocument(request, response) {
     try{
-        const { name, artistName, roles, about, address, image, phoneNumber, email } = request.body
+        const {
+            name,
+            email,
+            about,
+            roles,
+            image,
+            address,
+            artistName,
+            phoneNumber,
+            birthDayAndPlace
+        } = request.body
 
         const artist = {
             name,
@@ -103,7 +113,8 @@ export async function CreateArtistDocument(request, response) {
             return response.status(201).end()
         }
     }
-    catch{
+    catch(e){
+        console.log(e)
         response.status(500).end()
     }
 }
