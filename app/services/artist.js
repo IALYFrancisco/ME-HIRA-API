@@ -1,3 +1,4 @@
+import multer from "multer";
 import { Artist } from "../models/artist.js";
 import { ContactArtist } from "../models/artistContact.js";
 import { normalizeText } from "./song.js";
@@ -123,3 +124,5 @@ export async function DeleteArtistDocument( request, response ){
         return response.status(500).end()
     }
 }
+
+export const upload = multer([])
