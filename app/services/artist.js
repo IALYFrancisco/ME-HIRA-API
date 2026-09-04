@@ -103,8 +103,8 @@ export async function CreateArtistDocument(request, response) {
             artist.image = image
         }
 
-        let newArtistDocument = new Artist.create(artist)
-        let newArtistContact = new ContactArtist.create({
+        let newArtistDocument = await Artist.create(artist)
+        let newArtistContact = await ContactArtist.create({
             artistId: newArtistDocument._id,
             phoneNumber,
             email
