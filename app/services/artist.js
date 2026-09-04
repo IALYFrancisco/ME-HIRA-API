@@ -139,6 +139,20 @@ const storage = multer.diskStorage({
     }
 })
 
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ]
+
+    if(allowedMimeTypes.includes(file.mimetype)){
+        cb(null, true)
+    }else{
+        cb(new Error("Seuls les fichiers images sont autorisés."))
+    }
+}
+
 // Cette configuration upload est utilisée uniquement par la route de création de document artiste.
 // Plus précisement pour uploder l'image d'un artiste.
 export const upload = multer({})
