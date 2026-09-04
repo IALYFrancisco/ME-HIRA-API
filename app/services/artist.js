@@ -77,14 +77,23 @@ export async function CreateArtistDocument(request, response) {
     try{
         const { name, artistName, roles, about, address, image, phoneNumber, email } = request.body
 
+        const artist = {
+            name,
+            artistName,
+            roles: roles.split(", "),
+            about,
+            address,
+            birthDayAndPlace
+        }
+
         if(request.file){
             const uniqueName = request.file.filename
             artist.image = `/artist/profiles/${uniqueName}`
+        }else if (image){
+            artist.image = image
         }
 
-        let newArtistDocument = new Artist(artist)
-        newArtistDocument.roles = artist.roles.split(", ")
-        newArtistDocument = await newArtistDocument.save()
+        let newArtistDocument = new Artist.create(artist)
         let newArtistContact = new ContactArtist(contact)
         newArtistContact.artistId = newArtistDocument._id
         newArtistContact = await newArtistContact.save()
