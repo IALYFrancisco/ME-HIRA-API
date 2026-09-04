@@ -139,6 +139,7 @@ const storage = multer.diskStorage({
     }
 })
 
+// Filtre des fichiers image profile des artistes
 const fileFilter = (req, file, cb) => {
     const allowedMimeTypes = [
         "image/jpeg",
