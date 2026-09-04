@@ -75,7 +75,7 @@ export async function GetArtist(request, response){
 
 export async function CreateArtistDocument(request, response) {
     try{
-        const { artist, contact } = request.body
+        const { name, artistName, roles,  } = request.body
 
         if(request.file){
             const uniqueName = request.file.filename
