@@ -3,7 +3,7 @@ import { normalizeText } from "../services/song.js";
 
 const artistSchema = new Schema({
     name: { type: String }, /** this is the full real name of the subject */
-    artistName: { type: String },
+    artistName: { type: String, required: true },
     roles: { type: Array, required: true },
     about: { type: String },
     address: { type: String },
