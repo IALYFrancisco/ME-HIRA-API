@@ -4,10 +4,10 @@ import { normalizeText } from "../services/song.js";
 const artistSchema = new Schema({
     name: { type: String }, /** this is the full real name of the subject */
     artistName: { type: String, required: true },
-    roles: { type: Array, enum: [ "singer", "songwriter", "composer" ], required: true },
+    roles: { type: Array, required: true },
     about: { type: String },
     address: { type: String },
-    image: { type: String }, /** this attribut contains the url to the image of sabject, it can be an image of only subject or an image of group whit precisions */
+    image: { type: String }, /** this attribut contains the url to the image of subject, it can be an image of only subject or an image of group with precisions */
     birthDayAndPlace : { type: String },
     normalizedName: { type: String },
     normalizedArtistName: { type: String }
