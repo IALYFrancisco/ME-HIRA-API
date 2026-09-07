@@ -122,7 +122,7 @@ export async function CreateArtistDocument(request, response) {
 export async function UpdateArtistDocument(request, response){
     try{
 
-        const { artist, artistContact, docId } = request.body.update
+        const { docId } = request.body
         
         if(artist){
             await Artist.findByIdAndUpdate(docId, artist)
