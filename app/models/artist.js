@@ -28,6 +28,7 @@ const artistSchema = new Schema({
 artistSchema.set("optimisticConcurrency", true)
 
 artistSchema.pre("save", async function () {
+    normalizeArtistFields(this)
 })
 
 function normalizeArtistFields(document){
