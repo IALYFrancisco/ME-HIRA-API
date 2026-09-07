@@ -133,14 +133,14 @@ export async function UpdateArtistDocument(request, response){
             phoneNumber,
             birthDayAndPlace
         } = request.body
+        
+        const artistDocument = {}
+        const artistContacts = {}
 
         if(request.file){
             const uniqueName = request.file.filename
             artistDocument.image = `/artist/profiles/${uniqueName}`
         }
-
-        const artistDocument = {}
-        const artistContacts = {}
 
         if(name) artistDocument.name = name;
         if(roles) artistDocument.roles = roles.split(", ");
