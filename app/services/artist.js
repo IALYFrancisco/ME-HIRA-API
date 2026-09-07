@@ -142,15 +142,15 @@ export async function UpdateArtistDocument(request, response){
             artistDocument.image = `/artist/profiles/${uniqueName}`
         }
 
-        if(name) artistDocument.name = name;
-        if(roles) artistDocument.roles = roles.split(", ");
-        if(about) artistDocument.about = about;
-        if(image) artistDocument.image = image;
-        if(address) artistDocument.address = address;
-        if(artistName) artistDocument.artistName = artistName;
+        if(name !== undefined) artistDocument.name = name;
+        if(roles !== undefined) artistDocument.roles = roles.split(", ");
+        if(about !== undefined) artistDocument.about = about;
+        if(image !== undefined) artistDocument.image = image;
+        if(address !== undefined) artistDocument.address = address;
+        if(artistName !== undefined) artistDocument.artistName = artistName;
 
-        if(phoneNumber) artistContacts.phoneNumber = phoneNumber;
-        if(email) artistContacts.email = email;
+        if(phoneNumber !== undefined) artistContacts.phoneNumber = phoneNumber;
+        if(email !== undefined) artistContacts.email = email;
         
         await Artist.findByIdAndUpdate(docId, artistDocument, { runValidators: true })
 
