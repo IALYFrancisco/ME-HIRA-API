@@ -113,8 +113,7 @@ export async function CreateArtistDocument(request, response) {
             return response.status(201).end()
         }
     }
-    catch(e){
-        console.log(e)
+    catch{
         response.status(500).end()
     }
 }
@@ -122,19 +121,42 @@ export async function CreateArtistDocument(request, response) {
 export async function UpdateArtistDocument(request, response){
     try{
 
-        const { artist, artistContact, docId } = request.body.update
+        const { 
+            name,
+            docId,
+            roles,
+            about,
+            image,
+            email,
+            address,
+            artistName,
+            phoneNumber,
+            birthDayAndPlace
+        } = request.body
         
-        if(artist){
-            await Artist.findByIdAndUpdate(docId, artist)
-            return response.status(200).end()
+        const artistDocument = {}
+        const artistContacts = {}
+
+        if(request.file){
+            const uniqueName = request.file.filename
+            artistDocument.image = `/artist/profiles/${uniqueName}`
         }
 
-        if(artistContact){
-            await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContact)
-            return response.status(200).end()
-        }
+        if(name !== undefined) artistDocument.name = name;
+        if(roles !== undefined) artistDocument.roles = roles.split(", ");
+        if(about !== undefined) artistDocument.about = about;
+        if(image !== undefined) artistDocument.image = image;
+        if(address !== undefined) artistDocument.address = address;
+        if(artistName !== undefined) artistDocument.artistName = artistName;
 
-        return response.status(400).end()
+        if(phoneNumber !== undefined) artistContacts.phoneNumber = phoneNumber;
+        if(email !== undefined) artistContacts.email = email;
+        
+        await Artist.findByIdAndUpdate(docId, artistDocument, { runValidators: true })
+
+        await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContacts)
+
+        return response.status(200).end()
 
     }
     catch{

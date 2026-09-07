@@ -5,5 +5,5 @@ export const artistRouter = Router()
 
 artistRouter.get('/get', GetArtist)
 artistRouter.post('/create-document', upload.single("artistProfile"), CreateArtistDocument)
-artistRouter.patch('/update', UpdateArtistDocument)
+artistRouter.patch('/update', upload.single("artistProfile"), UpdateArtistDocument)
 artistRouter.delete('/delete', DeleteArtistDocument)
