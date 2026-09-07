@@ -152,7 +152,7 @@ export async function UpdateArtistDocument(request, response){
         if(phoneNumber) artistContacts.phoneNumber = phoneNumber;
         if(email) artistContacts.email = email;
         
-        await Artist.findByIdAndUpdate(docId, artistDocument)
+        await Artist.findByIdAndUpdate(docId, artistDocument, { runValidators: true })
 
         await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContacts)
 
