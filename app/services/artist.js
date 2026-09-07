@@ -135,6 +135,10 @@ export async function UpdateArtistDocument(request, response){
             birthDayAndPlace
         } = request.body
 
+        if(request.file){
+            
+        }
+
         const artistDocument = {}
         const artistContacts = {}
 
