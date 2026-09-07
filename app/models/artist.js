@@ -31,6 +31,12 @@ artistSchema.pre("save", async function () {
     normalizeArtistFields(this)
 })
 
+artistSchema.pre("findOneAndUpdate", function(){
+    const update = this.getUpdate()
+    normalizeArtistFields(update)
+    this.setUpdate(update)
+})
+
 function normalizeArtistFields(document){
     if(Object.prototype.hasOwnProperty.call(document, "name")){
         document.normalizedName = document.name ? normalizeText(document.name):"";
