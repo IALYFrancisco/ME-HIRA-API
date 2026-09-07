@@ -135,7 +135,8 @@ export async function UpdateArtistDocument(request, response){
         } = request.body
 
         if(request.file){
-            
+            const uniqueName = request.file.filename
+            artistDocument.image = `/artist/profiles/${uniqueName}`
         }
 
         const artistDocument = {}
