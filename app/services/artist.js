@@ -137,7 +137,6 @@ export async function UpdateArtistDocument(request, response){
 
         const artistDocument = {}
         const artistContacts = {}
-        artistContacts.artistId = docId
 
         if(name) artistDocument.name = name;
         if(roles) artistDocument.roles = roles.split(", ");
