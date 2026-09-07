@@ -122,7 +122,18 @@ export async function CreateArtistDocument(request, response) {
 export async function UpdateArtistDocument(request, response){
     try{
 
-        const { docId } = request.body
+        const { 
+            name,
+            docId,
+            roles,
+            about,
+            image,
+            email,
+            address,
+            artistName,
+            phoneNumber,
+            birthDayAndPlace
+        } = request.body
         
         if(artist){
             await Artist.findByIdAndUpdate(docId, artist)
