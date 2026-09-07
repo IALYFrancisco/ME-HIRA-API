@@ -40,7 +40,12 @@ artistSchema.pre("save", async function () {
 })
 
 function normalizeArtistFields(document){
-    
+    if(Object.prototype.hasOwnProperty.call(document, "name")){
+        document.normalizedName = document.name ? normalizeText(document.name):"";
+    }
+    if(Object.prototype.hasOwnProperty.call(document, "artistName")){
+        document.normalizedArtistName = normalizeText(document.artistName)
+    }
 }
 
 export const Artist = new model('Artist', artistSchema)
