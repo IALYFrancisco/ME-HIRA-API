@@ -39,4 +39,8 @@ artistSchema.pre("save", async function () {
     
 })
 
+function normalizeArtistFields(document){
+    
+}
+
 export const Artist = new model('Artist', artistSchema)
