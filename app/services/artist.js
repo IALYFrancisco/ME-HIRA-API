@@ -134,6 +134,20 @@ export async function UpdateArtistDocument(request, response){
             phoneNumber,
             birthDayAndPlace
         } = request.body
+
+        const artistDocument = {}
+        const artistContacts = {}
+        artistContacts.artistId = docId
+
+        if(name) artistDocument.name = name;
+        if(roles) artistDocument.roles = roles.split(", ");
+        if(about) artistDocument.about = about;
+        if(image) artistDocument.image = image;
+        if(address) artistDocument.address = address;
+        if(artistName) artistDocument.artistName = artistName;
+
+        if(phoneNumber) artistContacts.phoneNumber = phoneNumber;
+        if(email) artistContacts.email = email;
         
         if(artist){
             await Artist.findByIdAndUpdate(docId, artist)
