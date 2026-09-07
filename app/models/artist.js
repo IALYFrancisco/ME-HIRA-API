@@ -4,13 +4,19 @@ import { normalizeText } from "../services/song.js";
 const artistSchema = new Schema({
     name: { type: String }, /** this is the full real name of the subject */
     artistName: { type: String, required: true },
+
     roles: { 
         type: [{
             type: String,
             enum: ["singer", "songwriter", "composer"]
         }],
         required: true,
+        validate: {
+            validator: roles => roles.length > 0,
+            message: "At least one role is required"
+        }
     },
+    
     about: { type: String },
     address: { type: String },
     image: { type: String }, /** this attribut contains the url to the image of subject, it can be an image of only subject or an image of group with precisions */
