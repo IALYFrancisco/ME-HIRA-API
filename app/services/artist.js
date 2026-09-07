@@ -151,9 +151,8 @@ export async function UpdateArtistDocument(request, response){
         await Artist.findByIdAndUpdate(docId, artistDocument)
 
         await ContactArtist.findOneAndUpdate({ artistId: docId }, artistContacts)
-        
 
-        return response.status(400).end()
+        return response.status(200).end()
 
     }
     catch{
