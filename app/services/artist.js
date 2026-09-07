@@ -113,8 +113,7 @@ export async function CreateArtistDocument(request, response) {
             return response.status(201).end()
         }
     }
-    catch(e){
-        console.log(e)
+    catch{
         response.status(500).end()
     }
 }
