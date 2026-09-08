@@ -143,7 +143,7 @@ export async function UpdateArtistDocument(request, response){
         }
 
         if(name !== undefined) artistDocument.name = name;
-        if(roles !== undefined) artistDocument.roles = roles.split(", ");
+        if(roles !== undefined) artistDocument.roles = JSON.parse(roles);
         if(about !== undefined) artistDocument.about = about;
         if(image !== undefined) artistDocument.image = image;
         if(address !== undefined) artistDocument.address = address;
