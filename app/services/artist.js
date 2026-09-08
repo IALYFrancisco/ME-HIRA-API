@@ -90,7 +90,7 @@ export async function CreateArtistDocument(request, response) {
         const artist = {
             name,
             artistName,
-            roles: roles.split(", "),
+            roles: JSON.parse(roles),
             about,
             address,
             birthDayAndPlace
